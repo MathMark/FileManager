@@ -1,0 +1,26 @@
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\bin\Debug\File_Manager.exe
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\bin\Debug\File_Manager.pdb
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\obj\x86\Debug\File_Manager.Form1.resources
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\obj\x86\Debug\File_Manager.Properties.Resources.resources
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\obj\x86\Debug\File_Manager.csproj.GenerateResource.Cache
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\obj\x86\Debug\File_Manager.exe
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\obj\x86\Debug\File_Manager.pdb
+C:\Users\User\AppData\Local\Temporary Projects\File_Manager\obj\x86\Debug\File_Manager.DialogBox.resources
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.exe
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.pdb
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\bin\Debug\File_Manager.exe
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\bin\Debug\File_Manager.pdb
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.DialogBox.resources
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.Form1.resources
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.Properties.Resources.resources
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.csproj.GenerateResource.Cache
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.Form2.resources
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.csprojResolveAssemblyReference.cache
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\bin\Debug\en\File_Manager.resources.dll
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.Form1.en.resources
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\en\File_Manager.resources.dll
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\bin\Debug\am\File_Manager.resources.dll
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.Form1.am.resources
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\am\File_Manager.resources.dll
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\bin\Debug\File_Manager.exe.config
+C:\Users\User\documents\visual studio 2010\Projects\File_Manager\File_Manager\obj\x86\Debug\File_Manager.Form3.resources
