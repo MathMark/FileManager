@@ -18,15 +18,15 @@ namespace File_Manager
         {
             InitializeComponent();
 
-            Navigator.GetDrives(toolStripComboBox1);
-            Navigator.GetDrives(toolStripButton10);
+            Navigator.GetDrives(LeftDevices);
+            Navigator.GetDrives(RightDevices);
 
-            toolStripComboBox1.SelectedItem = toolStripComboBox1.Items[0];
-            toolStripButton10.SelectedItem = toolStripButton10.Items[0];
+            LeftDevices.SelectedItem = LeftDevices.Items[0];
+            RightDevices.SelectedItem = RightDevices.Items[0];
            
 
 
-            Navigator.GetFiles(string.Empty, ref LeftPath, toolStripComboBox1.SelectedItem.ToString(), listView);
+            Navigator.GetFiles(string.Empty, ref LeftPath, LeftDevices.SelectedItem.ToString(), LeftList);
 
             Process[] processes = Process.GetProcesses();
             foreach (Process p in processes)
@@ -39,7 +39,7 @@ namespace File_Manager
         }
         public void S()
         {
-            progressBar1.Value++;
+            LeftCondition.Value++;
         }
 
         public static DriveInfo[] drives = DriveInfo.GetDrives();
@@ -54,7 +54,7 @@ namespace File_Manager
         //Button "Back"
         private void button1_Click(object sender, EventArgs e)
         {
-            Navigator.GetFiles("..", ref LeftPath, toolStripComboBox1.SelectedIndex.ToString(), listView);
+            Navigator.GetFiles("..", ref LeftPath, LeftDevices.SelectedIndex.ToString(), LeftList);
             LeftPath = LeftPath.Replace("..\\", string.Empty);
 
             startIndex = Navigator.LastSlash(LeftPath);
@@ -64,19 +64,19 @@ namespace File_Manager
                 LeftPath = LeftPath.Remove(Navigator.LastSlash(LeftPath));
             }
 
-            Wayleft.Text = LeftPath;
+            LeftWayTextBox.Text = LeftPath;
         }
 
         private void listView_ItemActivate(object sender, EventArgs e)
         {
-            if (listView.SelectedItems.Count == 0)
+            if (LeftList.SelectedItems.Count == 0)
                 return;
 
-            ListViewItem item = listView.SelectedItems[0];
+            ListViewItem item = LeftList.SelectedItems[0];
             if (item.ImageIndex == 1)
             {
-                Navigator.GetFiles(item.Text,ref LeftPath,toolStripComboBox1.SelectedIndex.ToString(),listView);
-                Wayleft.Text += item.Text + "\\";
+                Navigator.GetFiles(item.Text,ref LeftPath,LeftDevices.SelectedIndex.ToString(),LeftList);
+                LeftWayTextBox.Text += item.Text + "\\";
             }
             else 
             {
@@ -143,9 +143,9 @@ namespace File_Manager
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             ListViewItem item;
-            if ((listView.SelectedItems.Count != 0) && (listView.SelectedItems[0].Text != "File have not found"))
+            if ((LeftList.SelectedItems.Count != 0))
             {
-                item = listView.SelectedItems[0];
+                item = LeftList.SelectedItems[0];
 
                 DialogBox.format = Navigator.ReturnFormat(item.Text);
                 DialogBox.way=LeftPath;
@@ -159,21 +159,21 @@ namespace File_Manager
                 {
                     try
                     {
-                        Navigator.GetFiles(ref LeftPath, listView);
-                        Navigator.GetFiles(ref RightPath, listView1);
+                        Navigator.GetFiles(ref LeftPath, LeftList);
+                        Navigator.GetFiles(ref RightPath, RightList);
                     }
                     catch (DirectoryNotFoundException)
                     {
                         string path = "C:\\";
-                        Navigator.GetFiles(ref path, listView);
-                        Navigator.GetFiles(ref path, listView1);
+                        Navigator.GetFiles(ref path, LeftList);
+                        Navigator.GetFiles(ref path, RightList);
                     }
                     DialogBox.done = false;
                 }
             }
-            else if ((listView1.SelectedItems.Count != 0) && (listView1.SelectedItems[0].Text != "File have not found"))
+            else if (RightList.SelectedItems.Count != 0) 
             {
-                item = listView1.SelectedItems[0];
+                item = RightList.SelectedItems[0];
 
                 DialogBox.format = Navigator.ReturnFormat(item.Text);
                 DialogBox.way = RightPath;
@@ -187,14 +187,14 @@ namespace File_Manager
                 {
                     try
                     {
-                        Navigator.GetFiles(ref LeftPath, listView);
-                        Navigator.GetFiles(ref RightPath, listView1);
+                        Navigator.GetFiles(ref LeftPath, LeftList);
+                        Navigator.GetFiles(ref RightPath, RightList);
                     }
                     catch (DirectoryNotFoundException)
                     {
                         string path = "C:\\";
-                        Navigator.GetFiles(ref path, listView);
-                        Navigator.GetFiles(ref path, listView1);
+                        Navigator.GetFiles(ref path, LeftList);
+                        Navigator.GetFiles(ref path, RightList);
                     }
                     DialogBox.done = false;
                 }
@@ -210,13 +210,13 @@ namespace File_Manager
         //Button "Delete"
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
-            if (listView.SelectedItems.Count != 0)
+            if (LeftList.SelectedItems.Count != 0)
             {
-                ListViewItem item = listView.SelectedItems[0];
+                ListViewItem item = LeftList.SelectedItems[0];
                DialogResult dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (dialog == DialogResult.Yes)
                 {
-                    if (Navigator.ReturnFormat(item.Text) != string.Empty)
+                   if(File.Exists(LeftPath+item.Text))
                     {
                         try
                         {
@@ -227,8 +227,8 @@ namespace File_Manager
                             MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
                         }
-                    }
-                    else
+                    } 
+                    else if(Directory.Exists(LeftPath+item.Text))
                     {
                         DirectoryInfo g=new DirectoryInfo(LeftPath + item.Text);
                         try
@@ -245,24 +245,24 @@ namespace File_Manager
 
                     try
                     {
-                        Navigator.GetFiles(ref LeftPath, listView);
-                        Navigator.GetFiles(ref RightPath, listView1);
+                        Navigator.GetFiles(ref LeftPath, LeftList);
+                        Navigator.GetFiles(ref RightPath, RightList);
                     }
                     catch (DirectoryNotFoundException)
                     {
                         string path = "C:\\";
-                        Navigator.GetFiles(ref path, listView);
-                        Navigator.GetFiles(ref path, listView1);
+                        Navigator.GetFiles(ref path, LeftList);
+                        Navigator.GetFiles(ref path, RightList);
                     }
                 }
             }
-            else if (listView1.SelectedItems.Count != 0)
+            else if (RightList.SelectedItems.Count != 0)
             {
-                ListViewItem item = listView1.SelectedItems[0];
+                ListViewItem item = RightList.SelectedItems[0];
                 DialogResult dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (dialog == DialogResult.Yes)
                 {
-                    if (Navigator.ReturnFormat(item.Text) != string.Empty)
+                    if (File.Exists(RightPath + item.Text))
                     {
                         try
                         {
@@ -275,10 +275,11 @@ namespace File_Manager
                         }
                         
                     }
-                    else
+                    else if (Directory.Exists(RightPath + item.Text))
                     {
                         DirectoryInfo g = new DirectoryInfo(RightPath + item.Text);
                         try
+
                         {
                             g.Delete(true);
                         }
@@ -290,14 +291,14 @@ namespace File_Manager
                     }
                     try
                     {
-                        Navigator.GetFiles(ref LeftPath, listView);
-                        Navigator.GetFiles(ref RightPath, listView1);
+                        Navigator.GetFiles(ref LeftPath, LeftList);
+                        Navigator.GetFiles(ref RightPath, RightList);
                     }
                     catch (DirectoryNotFoundException)
                     {
                         string path = "C:\\";
-                        Navigator.GetFiles(ref path, listView);
-                        Navigator.GetFiles(ref path, listView1);
+                        Navigator.GetFiles(ref path, LeftList);
+                        Navigator.GetFiles(ref path, RightList);
                     }
                 }
             }
@@ -323,9 +324,9 @@ namespace File_Manager
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             ListViewItem item;
-            if (listView.SelectedItems.Count != 0)
+            if (LeftList.SelectedItems.Count != 0)
             {
-                item = listView.SelectedItems[0];
+                item = LeftList.SelectedItems[0];
                 try
                 {
                     Navigator.Move(item, LeftPath, RightPath);
@@ -336,12 +337,12 @@ namespace File_Manager
                     return;
                 }
 
-                Navigator.GetFiles(ref LeftPath, listView);
-                Navigator.GetFiles(ref RightPath, listView1);
+                Navigator.GetFiles(ref LeftPath, LeftList);
+                Navigator.GetFiles(ref RightPath, RightList);
             }
-            else if (listView1.SelectedItems.Count != 0)
+            else if (RightList.SelectedItems.Count != 0)
             {
-                item = listView1.SelectedItems[0];
+                item = RightList.SelectedItems[0];
                 try
                 {
                     Navigator.Move(item, RightPath, LeftPath);
@@ -352,8 +353,8 @@ namespace File_Manager
                     return;
                 }
 
-                Navigator.GetFiles(ref LeftPath, listView);
-                Navigator.GetFiles(ref RightPath, listView1);
+                Navigator.GetFiles(ref LeftPath, LeftList);
+                Navigator.GetFiles(ref RightPath, RightList);
             }
             else
             {
@@ -368,11 +369,11 @@ namespace File_Manager
         private void toolStripButton7_Click(object sender, EventArgs e)
         {
 
-            if ((listView.SelectedItems.Count != 0)&&(Navigator.ReturnFormat(listView.SelectedItems[0].Text)!=string.Empty))
+            if ((LeftList.SelectedItems.Count != 0)&&(Navigator.ReturnFormat(LeftList.SelectedItems[0].Text)!=string.Empty))
             {
-                if (Navigator.ReturnFormat(listView.SelectedItems[0].Text) == ".txt")
+                if (Navigator.ReturnFormat(LeftList.SelectedItems[0].Text) == ".txt")
                 {
-                    wayToFile = LeftPath + listView.SelectedItems[0].Text;
+                    wayToFile = LeftPath + LeftList.SelectedItems[0].Text;
                     Form2 EditWindow = new Form2();
                     EditWindow.Show();
                 }
@@ -381,11 +382,11 @@ namespace File_Manager
                     MessageBox.Show("You can edit just text files");
                 }
             }
-            else if ((listView1.SelectedItems.Count != 0) && (Navigator.ReturnFormat(listView1.SelectedItems[0].Text) != string.Empty))
+            else if ((RightList.SelectedItems.Count != 0) && (Navigator.ReturnFormat(RightList.SelectedItems[0].Text) != string.Empty))
             {
-                if (Navigator.ReturnFormat(listView1.SelectedItems[0].Text) == ".txt")
+                if (Navigator.ReturnFormat(RightList.SelectedItems[0].Text) == ".txt")
                 {
-                    wayToFile = RightPath + listView1.SelectedItems[0].Text;
+                    wayToFile = RightPath + RightList.SelectedItems[0].Text;
                     Form2 EditWindow = new Form2();
                     EditWindow.Show();
                 }
@@ -404,23 +405,23 @@ namespace File_Manager
 
             ListViewItem item;
 
-            if (listView.SelectedItems.Count != 0)
+            if (LeftList.SelectedItems.Count != 0)
             {
-                item = listView.SelectedItems[0];
+                item = LeftList.SelectedItems[0];
                 Navigator.Copy(item, LeftPath, RightPath);
 
-                Navigator.GetFiles(ref LeftPath, listView);
-                Navigator.GetFiles(ref RightPath, listView1);
+                Navigator.GetFiles(ref LeftPath, LeftList);
+                Navigator.GetFiles(ref RightPath, RightList);
 
             }
-            else if (listView1.SelectedItems.Count != 0)
+            else if (RightList.SelectedItems.Count != 0)
             {
-                item = listView1.SelectedItems[0];
+                item = RightList.SelectedItems[0];
 
                 Navigator.Copy(item, RightPath, LeftPath);
 
-                Navigator.GetFiles(ref LeftPath, listView);
-                Navigator.GetFiles(ref RightPath, listView1);
+                Navigator.GetFiles(ref LeftPath, LeftList);
+                Navigator.GetFiles(ref RightPath, RightList);
             }
             else
             {
@@ -433,20 +434,20 @@ namespace File_Manager
         {
             try
             {
-                Navigator.GetFiles(ref LeftPath, listView);
-                Navigator.GetFiles(ref RightPath, listView1);
+                Navigator.GetFiles(ref LeftPath, LeftList);
+                Navigator.GetFiles(ref RightPath, RightList);
             }
             catch (DirectoryNotFoundException)
             {
                 string path = "C:\\";
-                Navigator.GetFiles(ref path, listView);
-                Navigator.GetFiles(ref path, listView1);
+                Navigator.GetFiles(ref path, LeftList);
+                Navigator.GetFiles(ref path, RightList);
             }
         }
 
         private void toolStripButton9_Click(object sender, EventArgs e)
         {
-            listView.CheckBoxes = true;
+            LeftList.CheckBoxes = true;
         }
 
         private void label7_Paint(object sender, PaintEventArgs e)
@@ -460,56 +461,56 @@ namespace File_Manager
         {
 
             //MessageBox.Show(toolStripComboBox1.SelectedItem.ToString());
-            DriveInfo device = new DriveInfo(toolStripComboBox1.SelectedItem.ToString());
+            DriveInfo device = new DriveInfo(LeftDevices.SelectedItem.ToString());
 
             if (device.IsReady == true)
             {
-                Navigator.GetFiles(string.Empty, ref LeftPath, toolStripComboBox1.SelectedItem.ToString(), listView);
+                Navigator.GetFiles(string.Empty, ref LeftPath, LeftDevices.SelectedItem.ToString(), LeftList);
                 //ShowInformationAboutDevice(treeView.SelectedNode.Text);
-                Navigator.ShowInformationAboutDevice(toolStripComboBox1.SelectedItem.ToString(), label1, label2, label3, progressBar1, label4, label6);
+                Navigator.ShowInformationAboutDevice(LeftDevices.SelectedItem.ToString(), label1, label2, label3, LeftCondition, label4, label6);
             }
             else
             {
                 MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                 LeftPath = "C:\\";
-                Navigator.GetFiles(ref LeftPath, listView);
+                Navigator.GetFiles(ref LeftPath, LeftList);
 
-                toolStripComboBox1.SelectedItem = toolStripComboBox1.Items[0];
+                LeftDevices.SelectedItem = LeftDevices.Items[0];
             }
-            Wayleft.Text = toolStripComboBox1.SelectedItem.ToString();
+            LeftWayTextBox.Text = LeftDevices.SelectedItem.ToString();
 
         }
 
         private void toolStripButton10_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DriveInfo device = new DriveInfo(toolStripButton10.SelectedItem.ToString());
+            DriveInfo device = new DriveInfo(RightDevices.SelectedItem.ToString());
 
             if (device.IsReady == true)
             {
-                Navigator.GetFiles(string.Empty, ref RightPath, toolStripButton10.SelectedItem.ToString(), listView1);
-                Navigator.ShowInformationAboutDevice(toolStripButton10.SelectedItem.ToString(), label14, label13, label12, progressBar2, label11, label9);
+                Navigator.GetFiles(string.Empty, ref RightPath, RightDevices.SelectedItem.ToString(), RightList);
+                Navigator.ShowInformationAboutDevice(RightDevices.SelectedItem.ToString(), label14, label13, label12, RightCondition, label11, label9);
             }
             else
             {
                 MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                 RightPath = "D:\\";
-                Navigator.GetFiles(ref LeftPath, listView);
+                Navigator.GetFiles(ref LeftPath, LeftList);
 
-                toolStripButton10.SelectedItem = toolStripButton10.Items[0];
+                RightDevices.SelectedItem = RightDevices.Items[0];
             }
-            Wayright.Text = toolStripButton10.SelectedItem.ToString();
+            RightWayTextBox.Text = RightDevices.SelectedItem.ToString();
         }
 
         private void listView1_ItemActivate(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count == 0)
+            if (RightList.SelectedItems.Count == 0)
                 return;
 
-            ListViewItem item = listView1.SelectedItems[0];
+            ListViewItem item = RightList.SelectedItems[0];
             if (item.ImageIndex == 1)
             {
-                Navigator.GetFiles(item.Text, ref RightPath, toolStripButton10.SelectedItem.ToString(), listView1);
-                Wayright.Text += item.Text + "\\";
+                Navigator.GetFiles(item.Text, ref RightPath, RightDevices.SelectedItem.ToString(), RightList);
+                RightWayTextBox.Text += item.Text + "\\";
             }
             else
             {
@@ -519,7 +520,7 @@ namespace File_Manager
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Navigator.GetFiles("..", ref RightPath, toolStripButton10.SelectedItem.ToString(), listView1);
+            Navigator.GetFiles("..", ref RightPath, RightDevices.SelectedItem.ToString(), RightList);
             RightPath = RightPath.Replace("..\\", string.Empty);
 
             startIndex = Navigator.LastSlash(RightPath);
@@ -529,7 +530,7 @@ namespace File_Manager
                 RightPath = RightPath.Remove(Navigator.LastSlash(RightPath));
             }
 
-            Wayright.Text = RightPath;
+            RightWayTextBox.Text = RightPath;
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -640,15 +641,12 @@ namespace File_Manager
 
         public static void GetFiles(string objectName, ref string way,string deviceName,ListView listView)
         {
-            //string way;
             if (objectName == string.Empty)
             {
-                //way = treeView.SelectedNode.Text;
                 way = deviceName;
             }
             else
             {
-                //way = treeView.SelectedNode.Text + fileName + "\\";
                 way += objectName + "\\";
             }
             listView.BeginUpdate();
@@ -671,10 +669,10 @@ namespace File_Manager
             string format;
             foreach (string s in files)
             {
-                filename = System.IO.Path.GetFileName(s);
-                string tmp = System.IO.Path.GetFileName(s);
+                filename = Path.GetFileName(s);
+                string tmp = Path.GetFileName(s);
 
-                format = Navigator.ReturnFormat(filename);
+                format = ReturnFormat(filename);
                 listView.Items.Add(filename,AddIcon(format));
             }
 
@@ -827,10 +825,11 @@ namespace File_Manager
             
                 if (SourcePath != DestinationPath)
                 {
-                    if (Navigator.ReturnFormat(selectedItem.Text) != string.Empty)
+                    //if (Navigator.ReturnFormat(selectedItem.Text) != string.Empty)
+                    if(File.Exists(SourcePath+selectedItem.Text))
                     {
 
-                        FileFormat = Navigator.ReturnFormat(selectedItem.Text);
+                        FileFormat =ReturnFormat(selectedItem.Text);
                         if(!File.Exists(DestinationPath+FileName+FileFormat))
                         {
                             try
@@ -946,11 +945,12 @@ namespace File_Manager
             string FileName = string.Empty;
             string FileFormat = string.Empty;
 
-                FileName = Navigator.ReturnFileName(selectedItem.Text);
+                FileName = ReturnFileName(selectedItem.Text);
 
                 if (SourcePath != DestinationPath)
                 {
-                    if (Navigator.ReturnFormat(selectedItem.Text) != string.Empty)
+
+                   if(File.Exists(SourcePath+selectedItem.Name))
                     {
                         try
                         {
@@ -961,7 +961,7 @@ namespace File_Manager
                             MessageBox.Show("File with similar name has already exist", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                         }
                     }
-                    else
+                    else if(Directory.Exists(SourcePath+selectedItem.Name))
                     {
                         try
                         {
@@ -976,7 +976,7 @@ namespace File_Manager
                 }
                 else
                 {
-                    MessageBox.Show("You try to copy file in similar directory", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("You try to move file in similar directory", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             
         }
