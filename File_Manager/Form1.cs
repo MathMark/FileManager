@@ -88,48 +88,48 @@ namespace File_Manager
         public static string lastname;
         
 
-        //Button "Search"
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            string[] files;
-            if ((searchText.Text!=string.Empty)&&(searchText.Text[0] == '.'))
-            {
-                files = Directory.GetFiles(LeftPath,"*"+searchText.Text);
-            }
-            else
-            {
-                files = Directory.GetFiles(LeftPath, searchText.Text + "*");
-            }
-            if (files.Length == 0)
-            {
-                listView.Items.Clear();
-                MessageBox.Show("File have not found","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
-            }
-            else
-            {
+        ////Button "Search"
+        //private void toolStripButton1_Click(object sender, EventArgs e)
+        //{
+        //    string[] files;
+        //    if ((searchText.Text!=string.Empty)&&(searchText.Text[0] == '.'))
+        //    {
+        //        files = Directory.GetFiles(LeftPath,"*"+searchText.Text);
+        //    }
+        //    else
+        //    {
+        //        files = Directory.GetFiles(LeftPath, searchText.Text + "*");
+        //    }
+        //    if (files.Length == 0)
+        //    {
+        //        listView.Items.Clear();
+        //        MessageBox.Show("File have not found","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
+        //    }
+        //    else
+        //    {
 
-                string filename;
-                string format;
+        //        string filename;
+        //        string format;
 
-                listView.Items.Clear();
-                foreach (string s in files)
-                {
-                    filename = System.IO.Path.GetFileName(s);
-                    string tmp = System.IO.Path.GetFileName(s);
+        //        listView.Items.Clear();
+        //        foreach (string s in files)
+        //        {
+        //            filename = System.IO.Path.GetFileName(s);
+        //            string tmp = System.IO.Path.GetFileName(s);
 
-                    if (tmp.IndexOf('.') > 0)
-                    {
-                        format = tmp.Substring(tmp.IndexOf('.'));
-                    }
-                    else
-                    {
-                        format = string.Empty;
-                    }
-                    listView.Items.Add(filename, Navigator.AddIcon(format));
-                }
-            }
+        //            if (tmp.IndexOf('.') > 0)
+        //            {
+        //                format = tmp.Substring(tmp.IndexOf('.'));
+        //            }
+        //            else
+        //            {
+        //                format = string.Empty;
+        //            }
+        //            listView.Items.Add(filename, Navigator.AddIcon(format));
+        //        }
+        //    }
 
-        }
+        //}
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
@@ -571,7 +571,10 @@ namespace File_Manager
             f.Show();
         }
 
- 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 
