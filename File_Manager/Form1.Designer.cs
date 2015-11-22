@@ -100,6 +100,7 @@
             this.LeftBackButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.LeftBackButton.Name = "LeftBackButton";
             this.LeftBackButton.UseVisualStyleBackColor = true;
+            this.LeftBackButton.Click += new System.EventHandler(this.LeftBackButton_Click);
             // 
             // imageList1
             // 
@@ -255,6 +256,7 @@
             this.RightBackButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.RightBackButton.Name = "RightBackButton";
             this.RightBackButton.UseVisualStyleBackColor = true;
+            this.RightBackButton.Click += new System.EventHandler(this.RightBackButton_Click);
             // 
             // RightListView
             // 

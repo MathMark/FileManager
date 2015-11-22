@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Drawing.Drawing2D;
 using System.Diagnostics;
-using System.Threading;
 using navigator;
 
 namespace File_Manager
@@ -114,6 +107,17 @@ namespace File_Manager
             {
                 return;
             }
+        }
+
+        private void LeftBackButton_Click(object sender, EventArgs e)
+        {
+            leftNavigator.GetContent(LeftListView, leftNavigator.CurrentPath + "\\..");
+            LeftPathTextBox.Text = leftNavigator.CurrentPath;
+        }
+
+        private void RightBackButton_Click(object sender, EventArgs e)
+        {
+
         }
 
         //  public static DriveInfo[] drives = DriveInfo.GetDrives();
@@ -528,70 +532,6 @@ namespace File_Manager
         //{
         //}
 
-
-
-
-        //private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-
-        //    //MessageBox.Show(toolStripComboBox1.SelectedItem.ToString());
-        //    DriveInfo device = new DriveInfo(LeftDevices.SelectedItem.ToString());
-
-        //    if (device.IsReady == true)
-        //    {
-        //        Navigator.GetFiles(string.Empty, ref LeftPath, LeftDevices.SelectedItem.ToString(), LeftList);
-        //        //ShowInformationAboutDevice(treeView.SelectedNode.Text);
-        //        Navigator.ShowInformationAboutDevice(LeftDevices.SelectedItem.ToString(), label1, label2, label3, LeftCondition, label4, label6);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        //        LeftPath = "C:\\";
-        //        Navigator.GetFiles(ref LeftPath, LeftList);
-
-        //        LeftDevices.SelectedItem = LeftDevices.Items[0];
-        //    }
-        //    LeftWayTextBox.Text = LeftDevices.SelectedItem.ToString();
-
-        //}
-
-        //private void toolStripButton10_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    DriveInfo device = new DriveInfo(RightDevices.SelectedItem.ToString());
-
-        //    if (device.IsReady == true)
-        //    {
-        //        Navigator.GetFiles(string.Empty, ref RightPath, RightDevices.SelectedItem.ToString(), RightList);
-        //        Navigator.ShowInformationAboutDevice(RightDevices.SelectedItem.ToString(), label14, label13, label12, RightCondition, label11, label9);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        //        RightPath = "D:\\";
-        //        Navigator.GetFiles(ref LeftPath, LeftList);
-
-        //        RightDevices.SelectedItem = RightDevices.Items[0];
-        //    }
-        //    RightWayTextBox.Text = RightDevices.SelectedItem.ToString();
-        //}
-
-        //private void listView1_ItemActivate(object sender, EventArgs e)
-        //{
-        //    if (RightList.SelectedItems.Count == 0)
-        //        return;
-
-        //    ListViewItem item = RightList.SelectedItems[0];
-        //    if (item.ImageIndex == 1)
-        //    {
-        //        Navigator.GetFiles(item.Text, ref RightPath, RightDevices.SelectedItem.ToString(), RightList);
-        //        RightWayTextBox.Text += item.Text + "\\";
-        //    }
-        //    else
-        //    {
-        //        Process.Start(RightPath + item.Text);
-        //    }
-        //}
-
         //    private void button4_Click(object sender, EventArgs e)
         //    {
         //        Navigator.GetFiles("..", ref RightPath, RightDevices.SelectedItem.ToString(), RightList);
@@ -652,32 +592,5 @@ namespace File_Manager
         //    }
         //}
 
-
-
-        //class Navigator
-        //{
-
-        //    public static void ShowInformationAboutDevice(string NameDevice, Label size, Label freeSpace, Label TypeSystem, ProgressBar condition, Label name, Label Used)
-        //    {
-        //        DriveInfo g = new DriveInfo(NameDevice);
-        //        size.Text = String.Format("Size: " + "{0:0.00}", (g.TotalSize / (Math.Pow(2, 30))));
-        //        size.Text += " Gb";
-
-        //        freeSpace.Text = String.Format("Free Space: " + "{0:0.00}", (g.TotalFreeSpace / (Math.Pow(2, 30))));
-        //        freeSpace.Text += " Gb";
-
-        //        TypeSystem.Text = "File System: " + g.DriveFormat.ToString();
-
-        //        int used = (int)(100 - ((g.TotalFreeSpace * 100) / g.TotalSize));
-
-        //        // Navigator.FillCondition(NameDevice,condition);
-        //        condition.Value = used;
-
-        //        name.Text = "Name: " + g.Name.ToString();
-
-        //        Used.Text = "Used: " + "(" + used.ToString() + "%)";
-        //    }
-
-        //}
     }
 }
