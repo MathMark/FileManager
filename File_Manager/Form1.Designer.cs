@@ -100,7 +100,6 @@
             this.LeftBackButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.LeftBackButton.Name = "LeftBackButton";
             this.LeftBackButton.UseVisualStyleBackColor = true;
-            this.LeftBackButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // imageList1
             // 
@@ -136,14 +135,12 @@
             // 
             resources.ApplyResources(this.HelpButton, "HelpButton");
             this.HelpButton.Name = "HelpButton";
-            this.HelpButton.Click += new System.EventHandler(this.toolStripButton8_Click);
             // 
             // ProcessesButton
             // 
             this.ProcessesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             resources.ApplyResources(this.ProcessesButton, "ProcessesButton");
             this.ProcessesButton.Name = "ProcessesButton";
-            this.ProcessesButton.Click += new System.EventHandler(this.toolStripButton9_Click_1);
             // 
             // groupBox1
             // 
@@ -221,14 +218,12 @@
             // 
             this.LeftDevices.Name = "LeftDevices";
             resources.ApplyResources(this.LeftDevices, "LeftDevices");
-            this.LeftDevices.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox1_SelectedIndexChanged);
             // 
             // RightDevices
             // 
             this.RightDevices.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.RightDevices.Name = "RightDevices";
             resources.ApplyResources(this.RightDevices, "RightDevices");
-            this.RightDevices.SelectedIndexChanged += new System.EventHandler(this.toolStripButton10_SelectedIndexChanged);
             // 
             // LeftList
             // 
@@ -242,7 +237,6 @@
             this.LeftList.SmallImageList = this.imageList1;
             this.LeftList.UseCompatibleStateImageBehavior = false;
             this.LeftList.View = System.Windows.Forms.View.Tile;
-            this.LeftList.ItemActivate += new System.EventHandler(this.listView_ItemActivate);
             // 
             // columnHeader1
             // 
@@ -258,7 +252,7 @@
             this.RightBackButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.RightBackButton.Name = "RightBackButton";
             this.RightBackButton.UseVisualStyleBackColor = true;
-            this.RightBackButton.Click += new System.EventHandler(this.button4_Click);
+
             // 
             // RightList
             // 
@@ -269,7 +263,7 @@
             this.RightList.SmallImageList = this.imageList1;
             this.RightList.UseCompatibleStateImageBehavior = false;
             this.RightList.View = System.Windows.Forms.View.Tile;
-            this.RightList.ItemActivate += new System.EventHandler(this.listView1_ItemActivate);
+
             // 
             // groupBox2
             // 
@@ -355,56 +349,47 @@
             this.sdToolStripMenuItem});
             resources.ApplyResources(this.CreateButton, "CreateButton");
             this.CreateButton.Name = "CreateButton";
-            this.CreateButton.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
             // toolStripMenuItem1
             // 
             resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // sdToolStripMenuItem
             // 
             resources.ApplyResources(this.sdToolStripMenuItem, "sdToolStripMenuItem");
             this.sdToolStripMenuItem.Name = "sdToolStripMenuItem";
-            this.sdToolStripMenuItem.Click += new System.EventHandler(this.sdToolStripMenuItem_Click);
             // 
             // CopyButton
             // 
             resources.ApplyResources(this.CopyButton, "CopyButton");
             this.CopyButton.Name = "CopyButton";
-            this.CopyButton.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // MoveButton
             // 
             resources.ApplyResources(this.MoveButton, "MoveButton");
             this.MoveButton.Name = "MoveButton";
-            this.MoveButton.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // RenameButton
             // 
             resources.ApplyResources(this.RenameButton, "RenameButton");
             this.RenameButton.Name = "RenameButton";
-            this.RenameButton.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // DeleteButton
             // 
             resources.ApplyResources(this.DeleteButton, "DeleteButton");
             this.DeleteButton.Name = "DeleteButton";
-            this.DeleteButton.Click += new System.EventHandler(this.toolStripButton6_Click);
             // 
             // toolStripButton7
             // 
             this.toolStripButton7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             resources.ApplyResources(this.toolStripButton7, "toolStripButton7");
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -437,8 +422,7 @@
             this.DoubleBuffered = true;
             this.Name = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Activated += new System.EventHandler(this.Form1_Activated);
-            this.Load += new System.EventHandler(this.Form1_Load);
+
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
