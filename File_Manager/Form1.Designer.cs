@@ -373,6 +373,7 @@
             // 
             resources.ApplyResources(this.CopyButton, "CopyButton");
             this.CopyButton.Name = "CopyButton";
+            this.CopyButton.Click += new System.EventHandler(this.CopyButton_Click);
             // 
             // MoveButton
             // 

@@ -117,7 +117,31 @@ namespace File_Manager
 
         private void RightBackButton_Click(object sender, EventArgs e)
         {
+            rightNavigator.GetContent(RightListView, rightNavigator.CurrentPath + "\\..");
+            RightPathTextBox.Text = rightNavigator.CurrentPath;
+        }
 
+        private void CopyButton_Click(object sender, EventArgs e)
+        {
+            ListViewItem item;
+
+            if (LeftListView.SelectedItems.Count != 0)
+            {
+                item = LeftListView.SelectedItems[0];
+                leftNavigator.Copy(item,rightNavigator.CurrentPath);
+            }
+            else if (RightListView.SelectedItems.Count != 0)
+            {
+                item = RightListView.SelectedItems[0];
+
+                rightNavigator.Copy(item, leftNavigator.CurrentPath);
+            }
+            else
+            {
+                MessageBox.Show("You haven't chosen any file");
+            }
+            leftNavigator.GetContent(LeftListView, leftNavigator.CurrentPath);
+            rightNavigator.GetContent(RightListView, rightNavigator.CurrentPath);
         }
 
         //  public static DriveInfo[] drives = DriveInfo.GetDrives();
@@ -125,46 +149,6 @@ namespace File_Manager
         // public static string RightPath = drives[0].Name;
 
         //public static byte createThing = 0;
-
-
-        //int startIndex;
-
-        //Button "Back"
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    Navigator.GetFiles("..", ref LeftPath, LeftDevices.SelectedIndex.ToString(), LeftList);
-        //    LeftPath = LeftPath.Replace("..\\", string.Empty);
-
-        //    startIndex = Navigator.LastSlash(LeftPath);
-
-        //    if (startIndex != 0)
-        //    {
-        //        LeftPath = LeftPath.Remove(Navigator.LastSlash(LeftPath));
-        //    }
-
-        //    LeftWayTextBox.Text = LeftPath;
-        //}
-
-        //private void listView_ItemActivate(object sender, EventArgs e)
-        //{
-        //    if (LeftList.SelectedItems.Count == 0)
-        //        return;
-
-        //    ListViewItem item = LeftList.SelectedItems[0];
-        //    if (item.ImageIndex == 1)
-        //    {
-        //        Navigator.GetFiles(item.Text,ref LeftPath,LeftDevices.SelectedIndex.ToString(),LeftList);
-        //        LeftWayTextBox.Text += item.Text + "\\";
-        //    }
-        //    else 
-        //    {
-        //      // MessageBox.Show(""+ File.GetCreationTimeUtc(wayLeft + item.Text) );
-        //        Process.Start(LeftPath+item.Text);
-        //    }
-        //}
-
-        //public static string lastname;
-
 
         ////Button "Search"
         //private void toolStripButton1_Click(object sender, EventArgs e)

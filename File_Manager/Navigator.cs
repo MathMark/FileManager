@@ -153,17 +153,11 @@ namespace navigator
 
         public void Copy(ListViewItem selectedItem, string DestinationPath)
         {
-            string FileName = string.Empty;
-            string FileFormat = string.Empty;
-
-            // FileName = oldNavigator.ReturnFileName(selectedItem.Text);
-
             if (CurrentPath != DestinationPath)
             {
-                //if (Navigator.ReturnFormat(selectedItem.Text) != string.Empty)
                 if (File.Exists(CurrentPath + "\\" + selectedItem.Text))
                 {
-                    if (!File.Exists(DestinationPath + FileName + FileFormat))
+                    if (!File.Exists(DestinationPath + Path.GetFileName(CurrentPath+"\\"+selectedItem.Text)))
                     {
                         try
                         {
