@@ -33,7 +33,7 @@
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.LeftBackButton = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.LeftWayTextBox = new System.Windows.Forms.TextBox();
+            this.LeftPathTextBox = new System.Windows.Forms.TextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.HelpButton = new System.Windows.Forms.ToolStripButton();
             this.ProcessesButton = new System.Windows.Forms.ToolStripButton();
@@ -48,13 +48,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.imageList3 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.LeftDevices = new System.Windows.Forms.ToolStripComboBox();
-            this.RightDevices = new System.Windows.Forms.ToolStripComboBox();
-            this.LeftList = new System.Windows.Forms.ListView();
+            this.LeftDevicesComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.RightDevicesComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.LeftListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.RightBackButton = new System.Windows.Forms.Button();
-            this.RightList = new System.Windows.Forms.ListView();
+            this.RightListView = new System.Windows.Forms.ListView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label11 = new System.Windows.Forms.Label();
@@ -64,7 +64,7 @@
             this.RightCondition = new System.Windows.Forms.ProgressBar();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.RightWayTextBox = new System.Windows.Forms.TextBox();
+            this.RightPathTextBox = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.CreateButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +74,7 @@
             this.MoveButton = new System.Windows.Forms.ToolStripButton();
             this.RenameButton = new System.Windows.Forms.ToolStripButton();
             this.DeleteButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.ReadButton = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.toolStrip2.SuspendLayout();
@@ -116,11 +116,11 @@
             this.imageList1.Images.SetKeyName(7, "5prjpgIDW.ico");
             this.imageList1.Images.SetKeyName(8, "Oxygen-Icons.org-Oxygen-Actions-media-playback-start.ico");
             // 
-            // LeftWayTextBox
+            // LeftPathTextBox
             // 
-            resources.ApplyResources(this.LeftWayTextBox, "LeftWayTextBox");
-            this.LeftWayTextBox.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.LeftWayTextBox.Name = "LeftWayTextBox";
+            resources.ApplyResources(this.LeftPathTextBox, "LeftPathTextBox");
+            this.LeftPathTextBox.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.LeftPathTextBox.Name = "LeftPathTextBox";
             // 
             // toolStrip2
             // 
@@ -209,34 +209,36 @@
             // 
             this.toolStrip3.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LeftDevices,
-            this.RightDevices});
+            this.LeftDevicesComboBox,
+            this.RightDevicesComboBox});
             resources.ApplyResources(this.toolStrip3, "toolStrip3");
             this.toolStrip3.Name = "toolStrip3";
             // 
-            // LeftDevices
+            // LeftDevicesComboBox
             // 
-            this.LeftDevices.Name = "LeftDevices";
-            resources.ApplyResources(this.LeftDevices, "LeftDevices");
+            this.LeftDevicesComboBox.Name = "LeftDevicesComboBox";
+            resources.ApplyResources(this.LeftDevicesComboBox, "LeftDevicesComboBox");
+            this.LeftDevicesComboBox.SelectedIndexChanged += new System.EventHandler(this.LeftDevicesComboBox_SelectedIndexChanged);
             // 
-            // RightDevices
+            // RightDevicesComboBox
             // 
-            this.RightDevices.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.RightDevices.Name = "RightDevices";
-            resources.ApplyResources(this.RightDevices, "RightDevices");
+            this.RightDevicesComboBox.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.RightDevicesComboBox.Name = "RightDevicesComboBox";
+            resources.ApplyResources(this.RightDevicesComboBox, "RightDevicesComboBox");
+            this.RightDevicesComboBox.SelectedIndexChanged += new System.EventHandler(this.RightDevicesComboBox_SelectedIndexChanged);
             // 
-            // LeftList
+            // LeftListView
             // 
-            resources.ApplyResources(this.LeftList, "LeftList");
-            this.LeftList.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.LeftList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            resources.ApplyResources(this.LeftListView, "LeftListView");
+            this.LeftListView.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.LeftListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.LeftList.LargeImageList = this.imageList1;
-            this.LeftList.Name = "LeftList";
-            this.LeftList.SmallImageList = this.imageList1;
-            this.LeftList.UseCompatibleStateImageBehavior = false;
-            this.LeftList.View = System.Windows.Forms.View.Tile;
+            this.LeftListView.LargeImageList = this.imageList1;
+            this.LeftListView.Name = "LeftListView";
+            this.LeftListView.SmallImageList = this.imageList1;
+            this.LeftListView.UseCompatibleStateImageBehavior = false;
+            this.LeftListView.View = System.Windows.Forms.View.Tile;
             // 
             // columnHeader1
             // 
@@ -252,18 +254,16 @@
             this.RightBackButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.RightBackButton.Name = "RightBackButton";
             this.RightBackButton.UseVisualStyleBackColor = true;
-
             // 
-            // RightList
+            // RightListView
             // 
-            resources.ApplyResources(this.RightList, "RightList");
-            this.RightList.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.RightList.LargeImageList = this.imageList1;
-            this.RightList.Name = "RightList";
-            this.RightList.SmallImageList = this.imageList1;
-            this.RightList.UseCompatibleStateImageBehavior = false;
-            this.RightList.View = System.Windows.Forms.View.Tile;
-
+            resources.ApplyResources(this.RightListView, "RightListView");
+            this.RightListView.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.RightListView.LargeImageList = this.imageList1;
+            this.RightListView.Name = "RightListView";
+            this.RightListView.SmallImageList = this.imageList1;
+            this.RightListView.UseCompatibleStateImageBehavior = false;
+            this.RightListView.View = System.Windows.Forms.View.Tile;
             // 
             // groupBox2
             // 
@@ -322,11 +322,11 @@
             this.label10.ImageList = this.imageList3;
             this.label10.Name = "label10";
             // 
-            // RightWayTextBox
+            // RightPathTextBox
             // 
-            resources.ApplyResources(this.RightWayTextBox, "RightWayTextBox");
-            this.RightWayTextBox.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.RightWayTextBox.Name = "RightWayTextBox";
+            resources.ApplyResources(this.RightPathTextBox, "RightPathTextBox");
+            this.RightPathTextBox.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.RightPathTextBox.Name = "RightPathTextBox";
             // 
             // toolStrip1
             // 
@@ -337,7 +337,7 @@
             this.MoveButton,
             this.RenameButton,
             this.DeleteButton,
-            this.toolStripButton7});
+            this.ReadButton});
             resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Name = "toolStrip1";
             // 
@@ -385,18 +385,18 @@
             resources.ApplyResources(this.DeleteButton, "DeleteButton");
             this.DeleteButton.Name = "DeleteButton";
             // 
-            // toolStripButton7
+            // ReadButton
             // 
-            this.toolStripButton7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            resources.ApplyResources(this.toolStripButton7, "toolStripButton7");
-            this.toolStripButton7.Name = "toolStripButton7";
+            this.ReadButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            resources.ApplyResources(this.ReadButton, "ReadButton");
+            this.ReadButton.Name = "ReadButton";
             // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.LeftBackButton, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LeftWayTextBox, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.RightWayTextBox, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LeftPathTextBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.RightPathTextBox, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.RightBackButton, 3, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
@@ -404,8 +404,8 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel2.Controls.Add(this.groupBox2, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.LeftList, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.RightList, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.LeftListView, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.RightListView, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 1);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
@@ -422,7 +422,6 @@
             this.DoubleBuffered = true;
             this.Name = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -449,7 +448,7 @@
 
         private System.Windows.Forms.Button LeftBackButton;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.TextBox LeftWayTextBox;
+        private System.Windows.Forms.TextBox LeftPathTextBox;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.ToolStrip toolStrip2;
@@ -461,7 +460,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem sdToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.ToolStripButton ReadButton;
         new private System.Windows.Forms.ToolStripButton HelpButton;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
@@ -472,11 +471,11 @@
         private System.Windows.Forms.ImageList imageList3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStrip toolStrip3;
-        private System.Windows.Forms.ListView LeftList;
+        private System.Windows.Forms.ListView LeftListView;
         private System.Windows.Forms.Button RightBackButton;
-        private System.Windows.Forms.ListView RightList;
-        private System.Windows.Forms.ToolStripComboBox LeftDevices;
-        private System.Windows.Forms.ToolStripComboBox RightDevices;
+        private System.Windows.Forms.ListView RightListView;
+        private System.Windows.Forms.ToolStripComboBox LeftDevicesComboBox;
+        private System.Windows.Forms.ToolStripComboBox RightDevicesComboBox;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
@@ -484,7 +483,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox RightWayTextBox;
+        private System.Windows.Forms.TextBox RightPathTextBox;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ProgressBar LeftCondition;
         private System.Windows.Forms.ProgressBar RightCondition;

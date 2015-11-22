@@ -28,10 +28,13 @@ namespace File_Manager
             leftNavigator = new Navigator();
             rightNavigator = new Navigator();
 
-            //LeftDevices.SelectedItem = LeftDevices.Items[0];
-           // RightDevices.SelectedItem = RightDevices.Items[0];
-
-
+            foreach(DriveInfo drive in leftNavigator.drives)
+            {
+                LeftDevicesComboBox.Items.Add(drive.Name);
+                RightDevicesComboBox.Items.Add(drive.Name);
+            }
+            LeftDevicesComboBox.SelectedItem = LeftDevicesComboBox.Items[0];
+            RightDevicesComboBox.SelectedItem = RightDevicesComboBox.Items[0];
 
             //Navigator.GetFiles(string.Empty, ref LeftPath, LeftDevices.SelectedItem.ToString(), LeftList);
 
@@ -41,6 +44,34 @@ namespace File_Manager
             //    //listView2.Items.Add(p.ToString());
             //}
 
+        }
+
+        private void LeftDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (leftNavigator.drives[LeftDevicesComboBox.SelectedIndex].IsReady == true)
+            {
+                leftNavigator.GetContent(LeftListView, LeftDevicesComboBox.SelectedItem.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                LeftDevicesComboBox.SelectedItem = LeftDevicesComboBox.Items[0];
+            }
+            LeftPathTextBox.Text = leftNavigator.CurrentPath;
+        }
+
+        private void RightDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (rightNavigator.drives[RightDevicesComboBox.SelectedIndex].IsReady == true)
+            {
+                rightNavigator.GetContent(RightListView, RightDevicesComboBox.SelectedItem.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RightDevicesComboBox.SelectedItem = RightDevicesComboBox.Items[0];
+            }
+            RightPathTextBox.Text = rightNavigator.CurrentPath;
         }
 
         //  public static DriveInfo[] drives = DriveInfo.GetDrives();
