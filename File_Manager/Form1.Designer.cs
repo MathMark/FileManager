@@ -239,6 +239,7 @@
             this.LeftListView.SmallImageList = this.imageList1;
             this.LeftListView.UseCompatibleStateImageBehavior = false;
             this.LeftListView.View = System.Windows.Forms.View.Tile;
+            this.LeftListView.ItemActivate += new System.EventHandler(this.LeftListView_ItemActivate);
             // 
             // columnHeader1
             // 
@@ -264,6 +265,7 @@
             this.RightListView.SmallImageList = this.imageList1;
             this.RightListView.UseCompatibleStateImageBehavior = false;
             this.RightListView.View = System.Windows.Forms.View.Tile;
+            this.RightListView.ItemActivate += new System.EventHandler(this.RightListView_ItemActivate);
             // 
             // groupBox2
             // 

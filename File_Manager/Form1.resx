@@ -1464,18 +1464,6 @@
   <metadata name="toolStrip3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>557, 17</value>
   </metadata>
-  <data name="LeftDevicesComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="LeftDevicesComboBox.Text" xml:space="preserve">
-    <value>Devices</value>
-  </data>
-  <data name="RightDevicesComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="RightDevicesComboBox.Text" xml:space="preserve">
-    <value>Devices</value>
-  </data>
   <data name="toolStrip3.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 53</value>
   </data>
@@ -1499,6 +1487,18 @@
   </data>
   <data name="&gt;&gt;toolStrip3.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="LeftDevicesComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 25</value>
+  </data>
+  <data name="LeftDevicesComboBox.Text" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="RightDevicesComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 25</value>
+  </data>
+  <data name="RightDevicesComboBox.Text" xml:space="preserve">
+    <value>Devices</value>
   </data>
   <data name="LeftListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>

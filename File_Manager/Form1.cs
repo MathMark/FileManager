@@ -74,6 +74,48 @@ namespace File_Manager
             RightPathTextBox.Text = rightNavigator.CurrentPath;
         }
 
+        private void LeftListView_ItemActivate(object sender, EventArgs e)
+        {
+            if (LeftListView.SelectedItems.Count != 0)
+            {
+                ListViewItem item = LeftListView.SelectedItems[0];
+                if (Directory.Exists(leftNavigator.ContentOfCurrentDirectory[item.Index]))
+                {
+                    leftNavigator.GetContent(LeftListView, item.Index);
+                    LeftPathTextBox.Text = leftNavigator.CurrentPath;
+                }
+                else
+                {
+                    Process.Start(leftNavigator.ContentOfCurrentDirectory[item.Index]);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void RightListView_ItemActivate(object sender, EventArgs e)
+        {
+            if (RightListView.SelectedItems.Count != 0)
+            {
+                ListViewItem item = RightListView.SelectedItems[0];
+                if (Directory.Exists(rightNavigator.ContentOfCurrentDirectory[item.Index]))
+                {
+                    rightNavigator.GetContent(RightListView, item.Index);
+                    RightPathTextBox.Text = rightNavigator.CurrentPath;
+                }
+                else
+                {
+                    Process.Start(rightNavigator.ContentOfCurrentDirectory[item.Index]);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
         //  public static DriveInfo[] drives = DriveInfo.GetDrives();
         // public static string LeftPath = drives[0].Name;
         // public static string RightPath = drives[0].Name;
