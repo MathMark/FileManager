@@ -3,14 +3,21 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using navigator;
+using System.Collections.Generic;
 
 namespace File_Manager
 {
-    public partial class Form1 : Form
+    public interface IMainForm
+    {
+        void ShowContent(ListView listView, List<string> Content);
+        int AddIcon(string format);
+    }
+    public partial class Form1 : Form,IMainForm
     {
         Navigator leftNavigator;
         Navigator rightNavigator;
 
+        
         public Form1()
         {
             InitializeComponent();
@@ -38,12 +45,65 @@ namespace File_Manager
             //}
 
         }
+        #region realization of IMainForm interface
+        public void ShowContent(ListView listView,List<string>Content)
+        {
+            listView.Items.Clear();
+            foreach(string @object in Content)
+            {
+                if(Directory.Exists(@object))
+                {
+                    listView.Items.Add(Path.GetFileName(@object),AddIcon("Directory"));
+                }
+                else if(File.Exists(@object))
+                {
+                    listView.Items.Add(Path.GetFileName(@object), AddIcon(Path.GetExtension(@object)));
+                }
+                else
+                {
 
+                }
+                
+            }
+        }
+        public int AddIcon(string format)
+        {
+            switch (format)
+            {
+                case "Directory":
+                    return 1;
+                case ".txt":
+                    return 5;
+                case ".jpg":
+                    return 7;
+                case ".doc":
+                    goto case ".docx";
+                case ".docx":
+                    return 3;
+                case ".xlsx":
+                    return 2;
+                case ".flac":
+                    goto case ".mp3";
+                case ".mp3":
+                    return 4;
+                case ".pdf":
+                    return 6;
+                case ".mp4":
+                    goto case ".AVI";
+                case ".AVI":
+                    return 8;
+                default:
+                    return 0;
+            }
+        }
+        #endregion
+
+        #region Events
         private void LeftDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (leftNavigator.drives[LeftDevicesComboBox.SelectedIndex].IsReady == true)
             {
-                leftNavigator.GetContent(LeftListView, LeftDevicesComboBox.SelectedItem.ToString());
+                ShowContent(LeftListView, leftNavigator.GetContent(LeftDevicesComboBox.SelectedItem.ToString()));
             }
             else
             {
@@ -57,7 +117,8 @@ namespace File_Manager
         {
             if (rightNavigator.drives[RightDevicesComboBox.SelectedIndex].IsReady == true)
             {
-                rightNavigator.GetContent(RightListView, RightDevicesComboBox.SelectedItem.ToString());
+                // rightNavigator.GetContent(RightListView, RightDevicesComboBox.SelectedItem.ToString());
+                ShowContent(RightListView, rightNavigator.GetContent(RightDevicesComboBox.SelectedItem.ToString()));
             }
             else
             {
@@ -74,8 +135,9 @@ namespace File_Manager
                 ListViewItem item = LeftListView.SelectedItems[0];
                 if (Directory.Exists(leftNavigator.ContentOfCurrentDirectory[item.Index]))
                 {
-                    leftNavigator.GetContent(LeftListView, item.Index);
+                    ShowContent(LeftListView, leftNavigator.GetContent(item.Index));
                     LeftPathTextBox.Text = leftNavigator.CurrentPath;
+
                 }
                 else
                 {
@@ -95,7 +157,7 @@ namespace File_Manager
                 ListViewItem item = RightListView.SelectedItems[0];
                 if (Directory.Exists(rightNavigator.ContentOfCurrentDirectory[item.Index]))
                 {
-                    rightNavigator.GetContent(RightListView, item.Index);
+                    ShowContent(RightListView, rightNavigator.GetContent(item.Index));
                     RightPathTextBox.Text = rightNavigator.CurrentPath;
                 }
                 else
@@ -111,13 +173,15 @@ namespace File_Manager
 
         private void LeftBackButton_Click(object sender, EventArgs e)
         {
-            leftNavigator.GetContent(LeftListView, leftNavigator.CurrentPath + "\\..");
+            //leftNavigator.GetContent(LeftListView, leftNavigator.CurrentPath + "\\..");
+            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath+"\\.."));
             LeftPathTextBox.Text = leftNavigator.CurrentPath;
         }
 
         private void RightBackButton_Click(object sender, EventArgs e)
         {
-            rightNavigator.GetContent(RightListView, rightNavigator.CurrentPath + "\\..");
+            // rightNavigator.GetContent(RightListView, rightNavigator.CurrentPath + "\\..");
+            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath + "\\.."));
             RightPathTextBox.Text = rightNavigator.CurrentPath;
         }
 
@@ -128,21 +192,23 @@ namespace File_Manager
             if (LeftListView.SelectedItems.Count != 0)
             {
                 item = LeftListView.SelectedItems[0];
-                leftNavigator.Copy(item,rightNavigator.CurrentPath);
+                leftNavigator.Copy(item.Text,rightNavigator.CurrentPath);
             }
             else if (RightListView.SelectedItems.Count != 0)
             {
                 item = RightListView.SelectedItems[0];
 
-                rightNavigator.Copy(item, leftNavigator.CurrentPath);
+                rightNavigator.Copy(item.Text, leftNavigator.CurrentPath);
             }
             else
             {
                 MessageBox.Show("You haven't chosen any file");
             }
-            leftNavigator.GetContent(LeftListView, leftNavigator.CurrentPath);
-            rightNavigator.GetContent(RightListView, rightNavigator.CurrentPath);
+
+            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
         }
+        #endregion
 
         //  public static DriveInfo[] drives = DriveInfo.GetDrives();
         // public static string LeftPath = drives[0].Name;
@@ -458,39 +524,6 @@ namespace File_Manager
         //        }
         //    }
         //}
-
-
-
-        //Button "Copy"
-        //private void toolStripButton2_Click(object sender, EventArgs e)
-        //{
-
-        //    ListViewItem item;
-
-        //    if (LeftList.SelectedItems.Count != 0)
-        //    {
-        //        item = LeftList.SelectedItems[0];
-        //        Navigator.Copy(item, LeftPath, RightPath);
-
-        //        Navigator.GetFiles(ref LeftPath, LeftList);
-        //        Navigator.GetFiles(ref RightPath, RightList);
-
-        //    }
-        //    else if (RightList.SelectedItems.Count != 0)
-        //    {
-        //        item = RightList.SelectedItems[0];
-
-        //        Navigator.Copy(item, RightPath, LeftPath);
-
-        //        Navigator.GetFiles(ref LeftPath, LeftList);
-        //        Navigator.GetFiles(ref RightPath, RightList);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("You haven't chosen any file");
-        //    }
-        //}
-
 
         //private void Form1_Activated(object sender, EventArgs e)
         //{

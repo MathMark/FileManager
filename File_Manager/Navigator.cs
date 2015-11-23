@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 namespace navigator
 {
+    public delegate void Demonstrator(ListView listView, List<string> Content);
     public class Navigator
     {
         public List<string> ContentOfCurrentDirectory { get; }
@@ -17,9 +18,10 @@ namespace navigator
             ContentOfCurrentDirectory = new List<string>();
         }
 
-        public void GetContent(ListView plane, string path)
+
+        public List<string> GetContent(string path)
         {
-            plane.Items.Clear();
+            //plane.Items.Clear();
             if (path.Contains("\\..") == true)
             {
                 path = path.Replace("\\..", string.Empty);
@@ -47,18 +49,20 @@ namespace navigator
                     continue;
 
                 ContentOfCurrentDirectory.Add(directory);
-                plane.Items.Add(Path.GetFileName(directory), 1);
+                //plane.Items.Add(Path.GetFileName(directory), 1);
 
             }
             foreach (string file in files)
             {
                 ContentOfCurrentDirectory.Add(file);
-                plane.Items.Add(Path.GetFileName(file), AddIcon(Path.GetExtension(file)));
+                //plane.Items.Add(Path.GetFileName(file), AddIcon(Path.GetExtension(file)));
             }
+            return ContentOfCurrentDirectory;
         }
-        public void GetContent(ListView plane, int index)
+
+        public List<string> GetContent(int index)
         {
-            plane.Items.Clear();
+            //plane.Items.Clear();
 
             //MessageBox.Show(index.ToString());
             string[] Directories = Directory.GetDirectories(ContentOfCurrentDirectory[index]);
@@ -73,39 +77,41 @@ namespace navigator
                     continue;
 
                 ContentOfCurrentDirectory.Add(directory);
-                plane.Items.Add(Path.GetFileName(directory), 1);
+                //plane.Items.Add(Path.GetFileName(directory), 1);
 
             }
-
             foreach (string file in files)
             {
                 ContentOfCurrentDirectory.Add(file);
-                plane.Items.Add(Path.GetFileName(file), AddIcon(Path.GetExtension(file)));
+                //plane.Items.Add(Path.GetFileName(file), AddIcon(Path.GetExtension(file)));
             }
+            return ContentOfCurrentDirectory;
         }
 
-        //вместо пути поставить список и обновить его!
-        public void Move(ListViewItem selectedItem, string DestinationPath)
+
+        public void Move(string SelectedName, string DestinationPath)
         {
             if (CurrentPath != DestinationPath)
             {
 
-                if (File.Exists(CurrentPath + "\\" + selectedItem.Name))
+                //if (File.Exists(CurrentPath + "\\" + selectedItem.Name))
+                if (File.Exists(CurrentPath+"\\"+SelectedName))
                 {
                     try
                     {
-                        File.Move(CurrentPath + "\\" + selectedItem.Text, DestinationPath + "\\" + selectedItem.Text);
+                        File.Move(CurrentPath + "\\" + SelectedName, DestinationPath + "\\" + SelectedName);
                     }
                     catch (IOException)
                     {
                         MessageBox.Show("File with similar name has already exist", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                     }
                 }
-                else if (Directory.Exists(CurrentPath + "\\" + selectedItem.Name))
+                //else if (Directory.Exists(CurrentPath + "\\" + selectedItem.Name))
+                else if (Directory.Exists(CurrentPath + "\\" + SelectedName))
                 {
                     try
                     {
-                        Directory.Move(CurrentPath + "\\" + selectedItem.Text, DestinationPath + "\\" + selectedItem.Text);
+                        Directory.Move(CurrentPath + "\\" + SelectedName, DestinationPath + "\\" + SelectedName);
                     }
                     catch (IOException)
                     {
@@ -121,13 +127,13 @@ namespace navigator
 
         }
 
-        public void Delete(ListViewItem item)
+        public void Delete(string SelectedText)
         {
-            if (File.Exists(CurrentPath + "\\" + item.Text))
+            if (File.Exists(CurrentPath + "\\" + SelectedText))
             {
                 try
                 {
-                    File.Delete(CurrentPath + "\\" + item.Text);
+                    File.Delete(CurrentPath + "\\" + SelectedText);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -135,9 +141,9 @@ namespace navigator
                     return;
                 }
             }
-            else if (Directory.Exists(CurrentPath + "\\" + item.Text))
+            else if (Directory.Exists(CurrentPath + "\\" + SelectedText))
             {
-                DirectoryInfo g = new DirectoryInfo(CurrentPath + "\\" + item.Text);
+                DirectoryInfo g = new DirectoryInfo(CurrentPath + "\\" + SelectedText);
                 try
                 {
                     g.Delete(true);
@@ -151,18 +157,18 @@ namespace navigator
             }
         }
 
-        public void Copy(ListViewItem selectedItem, string DestinationPath)
+        public void Copy(string SelectedName, string DestinationPath)
         {
             if (CurrentPath != DestinationPath)
             {
-                if (File.Exists(CurrentPath + "\\" + selectedItem.Text))
+                if (File.Exists(CurrentPath + "\\" + SelectedName))
                 {
-                    if (!File.Exists(DestinationPath + Path.GetFileName(CurrentPath+"\\"+selectedItem.Text)))
+                    if (!File.Exists(DestinationPath + Path.GetFileName(CurrentPath+"\\"+SelectedName)))
                     {
                         try
                         {
-                            File.Copy(CurrentPath + "\\" + selectedItem.Text, DestinationPath + "\\" + Path.GetFileNameWithoutExtension(ContentOfCurrentDirectory[selectedItem.Index])
-                                + "_copy" + Path.GetExtension(ContentOfCurrentDirectory[selectedItem.Index]));
+                            File.Copy(CurrentPath + "\\" + SelectedName, DestinationPath + "\\" + Path.GetFileNameWithoutExtension(CurrentPath + "\\" + SelectedName)
+                                + "_copy" + Path.GetExtension(CurrentPath + "\\" + SelectedName));
                             //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
                         }
                         catch (UnauthorizedAccessException)
@@ -177,9 +183,9 @@ namespace navigator
 
                         if (result == DialogResult.Yes)
                         {
-                            File.Delete(DestinationPath + "\\" + Path.GetFileName(ContentOfCurrentDirectory[selectedItem.Index]));
-                            File.Copy(CurrentPath + "\\" + selectedItem.Text, DestinationPath + "\\" + Path.GetFileNameWithoutExtension(ContentOfCurrentDirectory[selectedItem.Index])
-                                + "_copy" + Path.GetExtension(ContentOfCurrentDirectory[selectedItem.Index]));
+                            File.Delete(DestinationPath + "\\" + Path.GetFileName(CurrentPath + "\\" + SelectedName));
+                            File.Copy(CurrentPath + "\\" + SelectedName, DestinationPath + "\\" + Path.GetFileNameWithoutExtension(CurrentPath + "\\" + SelectedName)
+                                + "_copy" + Path.GetExtension(CurrentPath + "\\" + SelectedName));
                             //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
                         }
 
@@ -187,7 +193,7 @@ namespace navigator
                 }
                 else
                 {
-                    CopyDirectory(CurrentPath, DestinationPath, selectedItem.Text);
+                    CopyDirectory(CurrentPath, DestinationPath, SelectedName);
                 }
 
             }
@@ -246,7 +252,7 @@ namespace navigator
                     string recDirname;
                     foreach (string s in directories)
                     {
-                        Directory.CreateDirectory(DestinationPath + DirName + "\\" + Path.GetFileName(s));
+                        Directory.CreateDirectory(DestinationPath +"\\"+ DirName + "\\" + Path.GetFileName(s));
 
                         recSourcePath = SourcePath + "\\" + DirName;
                         recDestinationPath = DestinationPath + "\\" + DirName;
@@ -262,36 +268,7 @@ namespace navigator
                     return;
                 }
             }//end SourcePath!=DestinationPath
-        }
-
-        private static int AddIcon(string format)
-        {
-            switch (format)
-            {
-                case ".txt":
-                    return 5;
-                case ".jpg":
-                    return 7;
-                case ".doc":
-                    goto case ".docx";
-                case ".docx":
-                    return 3;
-                case ".xlsx":
-                    return 2;
-                case ".flac":
-                    goto case ".mp3";
-                case ".mp3":
-                    return 4;
-                case ".pdf":
-                    return 6;
-                case ".mp4":
-                    goto case ".AVI";
-                case ".AVI":
-                    return 8;
-                default:
-                    return 0;
-            }
-        }
+        } 
 
     }
 }
