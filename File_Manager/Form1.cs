@@ -211,23 +211,33 @@ namespace File_Manager
         private void CopyButton_Click(object sender, EventArgs e)
         {
             ListViewItem item;
-
-            if (LeftListView.SelectedItems.Count != 0)
+            try
             {
-                item = LeftListView.SelectedItems[0];
-                leftNavigator.Copy(item.Text+item.SubItems[1].Text,rightNavigator.CurrentPath);
-            }
-            else if (RightListView.SelectedItems.Count != 0)
-            {
-                item = RightListView.SelectedItems[0];
+                if (LeftListView.SelectedItems.Count != 0)
+                {
+                    item = LeftListView.SelectedItems[0];
+                    leftNavigator.Copy(item.Text + item.SubItems[1].Text, rightNavigator.CurrentPath);
+                }
+                else if (RightListView.SelectedItems.Count != 0)
+                {
+                    item = RightListView.SelectedItems[0];
 
-                rightNavigator.Copy(item.Text + item.SubItems[1].Text, leftNavigator.CurrentPath);
+                    rightNavigator.Copy(item.Text + item.SubItems[1].Text, leftNavigator.CurrentPath);
+                }
+                else
+                {
+                    MessageBox.Show("You haven't chosen any file");
+                }
             }
-            else
+            catch(UnauthorizedAccessException)
             {
-                MessageBox.Show("You haven't chosen any file");
+                MessageBox.Show("Access denied", "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        
             ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
             ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
         }
@@ -262,6 +272,47 @@ namespace File_Manager
                 MessageBox.Show(exception.Message, "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
+            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            ListViewItem item;
+            try
+            {
+                if (LeftListView.SelectedItems.Count != 0)
+                {
+                    DialogResult dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        item = LeftListView.SelectedItems[0];
+                        leftNavigator.Delete(item.Text + item.SubItems[1].Text.Replace("<dir>",string.Empty));
+                    }
+                }
+                else if (RightListView.SelectedItems.Count != 0)
+                {
+                    DialogResult dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        item = RightListView.SelectedItems[0];
+
+                        rightNavigator.Delete(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty));
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("You haven't chosen any file");
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Access denied", "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
             ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
         }

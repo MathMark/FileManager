@@ -273,6 +273,7 @@
             // 
             resources.ApplyResources(this.DeleteButton, "DeleteButton");
             this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // tableLayoutPanel2
             // 
