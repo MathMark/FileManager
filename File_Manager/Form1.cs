@@ -156,15 +156,16 @@ namespace File_Manager
                 else
                 {
                     //Process.Start(leftNavigator.ContentOfCurrentDirectory[item.Index]);
-                    FileAttributes attributes = File.GetAttributes(leftNavigator.ContentOfCurrentDirectory[item.Index]);
-                    if ((attributes == FileAttributes.ReadOnly))
-                    {
-                        MessageBox.Show("read-only file");
-                    }
-                    else
-                    {
-                        MessageBox.Show("not read-only file");
-                    }
+                    MessageBox.Show(item.Text);
+                    //FileAttributes attributes = File.GetAttributes(leftNavigator.ContentOfCurrentDirectory[item.Index]);
+                    //if ((attributes == FileAttributes.ReadOnly))
+                    //{
+                    //    MessageBox.Show("read-only file");
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show("not read-only file");
+                    //}
                 }
             }
             else
@@ -214,13 +215,13 @@ namespace File_Manager
             if (LeftListView.SelectedItems.Count != 0)
             {
                 item = LeftListView.SelectedItems[0];
-                leftNavigator.Copy(item.Text,rightNavigator.CurrentPath);
+                leftNavigator.Copy(item.Text+item.SubItems[1].Text,rightNavigator.CurrentPath);
             }
             else if (RightListView.SelectedItems.Count != 0)
             {
                 item = RightListView.SelectedItems[0];
 
-                rightNavigator.Copy(item.Text, leftNavigator.CurrentPath);
+                rightNavigator.Copy(item.Text + item.SubItems[1].Text, leftNavigator.CurrentPath);
             }
             else
             {
@@ -231,7 +232,41 @@ namespace File_Manager
             ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
         }
 
- 
+        private void MoveButton_Click(object sender, EventArgs e)
+        {
+            ListViewItem item;
+            try
+            {
+                if (LeftListView.SelectedItems.Count != 0)
+                {
+                    item = LeftListView.SelectedItems[0];
+                    leftNavigator.Move(item.Text + item.SubItems[1].Text, rightNavigator.CurrentPath);
+                }
+                else if (RightListView.SelectedItems.Count != 0)
+                {
+                    item = RightListView.SelectedItems[0];
+
+                    rightNavigator.Move(item.Text + item.SubItems[1].Text, leftNavigator.CurrentPath);
+                }
+                else
+                {
+                    MessageBox.Show("You haven't chosen any file");
+                }
+            }
+            catch(UnauthorizedAccessException)
+            {
+                MessageBox.Show("Access denied", "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+        }
+
+
 
 
 

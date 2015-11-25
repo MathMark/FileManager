@@ -39,9 +39,13 @@
             this.RightBackButton = new System.Windows.Forms.ToolStripButton();
             this.RightDevicesComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.LeftListView = new System.Windows.Forms.ListView();
+            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnEx = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.RightListView = new System.Windows.Forms.ListView();
             this.NameColumn1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ExColumn1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnSize1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.CreateButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,10 +63,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnEx = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnSize1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -152,6 +152,18 @@
             this.LeftListView.View = System.Windows.Forms.View.Details;
             this.LeftListView.ItemActivate += new System.EventHandler(this.LeftListView_ItemActivate);
             // 
+            // columnName
+            // 
+            resources.ApplyResources(this.columnName, "columnName");
+            // 
+            // columnEx
+            // 
+            resources.ApplyResources(this.columnEx, "columnEx");
+            // 
+            // columnSize
+            // 
+            resources.ApplyResources(this.columnSize, "columnSize");
+            // 
             // RightListView
             // 
             this.RightListView.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -175,6 +187,10 @@
             // ExColumn1
             // 
             resources.ApplyResources(this.ExColumn1, "ExColumn1");
+            // 
+            // columnSize1
+            // 
+            resources.ApplyResources(this.columnSize1, "columnSize1");
             // 
             // toolStrip1
             // 
@@ -236,6 +252,7 @@
             // 
             resources.ApplyResources(this.MoveButton, "MoveButton");
             this.MoveButton.Name = "MoveButton";
+            this.MoveButton.Click += new System.EventHandler(this.MoveButton_Click);
             // 
             // toolStripSeparator3
             // 
@@ -280,22 +297,6 @@
             resources.ApplyResources(this.label2, "label2");
             this.label2.ForeColor = System.Drawing.SystemColors.Control;
             this.label2.Name = "label2";
-            // 
-            // columnName
-            // 
-            resources.ApplyResources(this.columnName, "columnName");
-            // 
-            // columnEx
-            // 
-            resources.ApplyResources(this.columnEx, "columnEx");
-            // 
-            // columnSize
-            // 
-            resources.ApplyResources(this.columnSize, "columnSize");
-            // 
-            // columnSize1
-            // 
-            resources.ApplyResources(this.columnSize1, "columnSize1");
             // 
             // Form1
             // 
