@@ -4,12 +4,13 @@ using System.IO;
 using System.Diagnostics;
 using navigator;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace File_Manager
 {
     public interface IMainForm
     {
-        void ShowContent(ListView listView, List<string> Content);
+        void ShowContent(ListView listView,List<string> Content);
         int AddIcon(string format);
     }
     public partial class Form1 : Form,IMainForm
@@ -17,13 +18,9 @@ namespace File_Manager
         Navigator leftNavigator;
         Navigator rightNavigator;
 
-        
         public Form1()
         {
             InitializeComponent();
-
-            //Navigator.GetDrives(LeftDevices);
-            //Navigator.GetDrives(RightDevices);
 
             leftNavigator = new Navigator();
             rightNavigator = new Navigator();
@@ -36,34 +33,51 @@ namespace File_Manager
             LeftDevicesComboBox.SelectedItem = LeftDevicesComboBox.Items[0];
             RightDevicesComboBox.SelectedItem = RightDevicesComboBox.Items[0];
 
-            //Navigator.GetFiles(string.Empty, ref LeftPath, LeftDevices.SelectedItem.ToString(), LeftList);
-
-            //Process[] processes = Process.GetProcesses();
-            //foreach (Process p in processes)
-            //{
-            //    //listView2.Items.Add(p.ToString());
-            //}
-
         }
         #region realization of IMainForm interface
         public void ShowContent(ListView listView,List<string>Content)
         {
             listView.Items.Clear();
-            foreach(string @object in Content)
+            ListViewItem item;
+            DirectoryInfo directoryInfo;
+            FileInfo fileInfo;
+            const long KByte = 1024;
+            const long MByte = 1048576;
+            
+            foreach (string @object in Content)
             {
                 if(Directory.Exists(@object))
                 {
-                    listView.Items.Add(Path.GetFileName(@object),AddIcon("Directory"));
+                    directoryInfo = new DirectoryInfo(@object);
+
+                    item = new ListViewItem(Path.GetFileNameWithoutExtension(@object),AddIcon("Directory"));
+                    item.SubItems.Add("<dir>");
+                    item.SubItems.Add("");
+
+                    listView.Items.Add(item);
                 }
                 else if(File.Exists(@object))
                 {
-                    listView.Items.Add(Path.GetFileName(@object), AddIcon(Path.GetExtension(@object)));
-                }
-                else
-                {
+                    fileInfo = new FileInfo(@object);
 
+                    item = new ListViewItem(Path.GetFileNameWithoutExtension(@object),AddIcon(Path.GetExtension(@object)));
+                    item.SubItems.Add(Path.GetExtension(@object));
+
+                    long Size = fileInfo.Length;
+                    if (Size >= MByte)
+                    {
+                        item.SubItems.Add((fileInfo.Length / MByte).ToString() + " Mb");
+                    }
+                    else
+                    {
+                        item.SubItems.Add((fileInfo.Length / KByte).ToString() + " Kb");
+                    }
+                    
+
+
+                    listView.Items.Add(item);
                 }
-                
+             
             }
         }
         public int AddIcon(string format)
@@ -103,14 +117,14 @@ namespace File_Manager
         {
             if (leftNavigator.drives[LeftDevicesComboBox.SelectedIndex].IsReady == true)
             {
-                ShowContent(LeftListView, leftNavigator.GetContent(LeftDevicesComboBox.SelectedItem.ToString()));
+                ShowContent(LeftListView,leftNavigator.GetContent(LeftDevicesComboBox.SelectedItem.ToString()));
             }
             else
             {
                 MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 LeftDevicesComboBox.SelectedItem = LeftDevicesComboBox.Items[0];
             }
-            LeftPathTextBox.Text = leftNavigator.CurrentPath;
+            label1.Text = leftNavigator.CurrentPath;
         }
 
         private void RightDevicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -118,14 +132,14 @@ namespace File_Manager
             if (rightNavigator.drives[RightDevicesComboBox.SelectedIndex].IsReady == true)
             {
                 // rightNavigator.GetContent(RightListView, RightDevicesComboBox.SelectedItem.ToString());
-                ShowContent(RightListView, rightNavigator.GetContent(RightDevicesComboBox.SelectedItem.ToString()));
+                ShowContent(RightListView,rightNavigator.GetContent(RightDevicesComboBox.SelectedItem.ToString()));
             }
             else
             {
                 MessageBox.Show("Device does not ready to use", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 RightDevicesComboBox.SelectedItem = RightDevicesComboBox.Items[0];
             }
-            RightPathTextBox.Text = rightNavigator.CurrentPath;
+            label2.Text = rightNavigator.CurrentPath;
         }
 
         private void LeftListView_ItemActivate(object sender, EventArgs e)
@@ -136,12 +150,21 @@ namespace File_Manager
                 if (Directory.Exists(leftNavigator.ContentOfCurrentDirectory[item.Index]))
                 {
                     ShowContent(LeftListView, leftNavigator.GetContent(item.Index));
-                    LeftPathTextBox.Text = leftNavigator.CurrentPath;
+                    label1.Text = leftNavigator.CurrentPath;
 
                 }
                 else
                 {
-                    Process.Start(leftNavigator.ContentOfCurrentDirectory[item.Index]);
+                    //Process.Start(leftNavigator.ContentOfCurrentDirectory[item.Index]);
+                    FileAttributes attributes = File.GetAttributes(leftNavigator.ContentOfCurrentDirectory[item.Index]);
+                    if ((attributes == FileAttributes.ReadOnly))
+                    {
+                        MessageBox.Show("read-only file");
+                    }
+                    else
+                    {
+                        MessageBox.Show("not read-only file");
+                    }
                 }
             }
             else
@@ -158,7 +181,7 @@ namespace File_Manager
                 if (Directory.Exists(rightNavigator.ContentOfCurrentDirectory[item.Index]))
                 {
                     ShowContent(RightListView, rightNavigator.GetContent(item.Index));
-                    RightPathTextBox.Text = rightNavigator.CurrentPath;
+                    label2.Text = rightNavigator.CurrentPath;
                 }
                 else
                 {
@@ -171,18 +194,17 @@ namespace File_Manager
             }
         }
 
-        private void LeftBackButton_Click(object sender, EventArgs e)
-        {
-            //leftNavigator.GetContent(LeftListView, leftNavigator.CurrentPath + "\\..");
-            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath+"\\.."));
-            LeftPathTextBox.Text = leftNavigator.CurrentPath;
-        }
 
-        private void RightBackButton_Click(object sender, EventArgs e)
+        private void LeftBackButton_Click_1(object sender, EventArgs e)
         {
-            // rightNavigator.GetContent(RightListView, rightNavigator.CurrentPath + "\\..");
+            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath + "\\.."));
+
+            label1.Text = leftNavigator.CurrentPath;
+        }
+        private void RightBackButton_Click_1(object sender, EventArgs e)
+        {
             ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath + "\\.."));
-            RightPathTextBox.Text = rightNavigator.CurrentPath;
+            label2.Text = rightNavigator.CurrentPath;
         }
 
         private void CopyButton_Click(object sender, EventArgs e)
@@ -208,6 +230,11 @@ namespace File_Manager
             ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
             ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
         }
+
+ 
+
+
+
         #endregion
 
         //  public static DriveInfo[] drives = DriveInfo.GetDrives();

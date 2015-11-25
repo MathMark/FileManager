@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace navigator
 {
-    public delegate void Demonstrator(ListView listView, List<string> Content);
+    public delegate void Demonstrator(List<string> Content);
     public class Navigator
     {
         public List<string> ContentOfCurrentDirectory { get; }
@@ -57,7 +57,7 @@ namespace navigator
                 ContentOfCurrentDirectory.Add(file);
                 //plane.Items.Add(Path.GetFileName(file), AddIcon(Path.GetExtension(file)));
             }
-            return ContentOfCurrentDirectory;
+           return ContentOfCurrentDirectory;
         }
 
         public List<string> GetContent(int index)
@@ -269,6 +269,45 @@ namespace navigator
                 }
             }//end SourcePath!=DestinationPath
         } 
+
+        public static long GetDirectorySize(DirectoryInfo directoryInfo)
+        {
+            long size = 0;
+
+            FileInfo[] files = directoryInfo.GetFiles();
+
+            foreach(FileInfo file in files)
+            {
+                try
+                {
+                    size += file.Length;
+                }
+                //Данное исключение делается для пропуска папок к которым нет доступа
+                catch (UnauthorizedAccessException)
+                {
+                    ;
+                }
+            }
+
+            DirectoryInfo[] directories = directoryInfo.GetDirectories();
+
+            if (directories.Length != 0)
+            {
+                foreach (DirectoryInfo directory in directories)
+                {
+                    try
+                    {
+                        size += GetDirectorySize(directory);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        ;
+                    }
+                }
+            }
+            else;
+            return size;
+        }
 
     }
 }
