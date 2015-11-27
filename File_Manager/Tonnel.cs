@@ -10,7 +10,6 @@ namespace File_Manager
         public string SourcePath { get; private set; }
         public string DestinationPath { get; private set; }
         public string SelectedFile { get; private set; }
-        public int value = 0;
 
         public Tonnel(string SelectedFile,string SourcePath,string DestinationPath)
         {

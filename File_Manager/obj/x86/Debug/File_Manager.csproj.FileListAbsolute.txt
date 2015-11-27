@@ -52,7 +52,6 @@ C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\bin\D
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.csprojResolveAssemblyReference.cache
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.DialogBox.resources
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.Form1.resources
-C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.Form2.resources
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.Form3.resources
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.Properties.Resources.resources
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.Form1.am.resources
@@ -60,3 +59,4 @@ C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.csproj.GenerateResource.Cache
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\am\File_Manager.resources.dll
 C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\en\File_Manager.resources.dll
+C:\Users\Администратор\Documents\FileManager_GIT\File_Manager\obj\x86\Debug\File_Manager.FormAttributes.resources

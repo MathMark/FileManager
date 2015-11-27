@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using File_Manager;
 
 namespace navigator
 {
@@ -204,6 +205,97 @@ namespace navigator
 
         }
 
+        public static void Copy(object FromTo)
+        {
+            Tonnel tonnel = (Tonnel)FromTo;
+            if (tonnel.SourcePath != tonnel.DestinationPath)
+            {
+                if (File.Exists(tonnel.SourcePath + "\\" + tonnel.SelectedFile))
+                {
+                    if (!File.Exists(tonnel.DestinationPath + Path.GetFileName(tonnel.SourcePath + "\\" + tonnel.SelectedFile)))
+                    {
+                        try
+                        {
+                            File.Copy(tonnel.SourcePath + "\\" + tonnel.SelectedFile, tonnel.DestinationPath + "\\" + Path.GetFileNameWithoutExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile)
+                                + "_copy" + Path.GetExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile));
+                            //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        DialogResult result = MessageBox.Show("A file with similar name has already exist. Do you wish to Replace?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            File.Delete(tonnel.DestinationPath + "\\" + Path.GetFileName(tonnel.SourcePath + "\\" + tonnel.SelectedFile));
+                            File.Copy(tonnel.SourcePath + "\\" + tonnel.SelectedFile, tonnel.DestinationPath + "\\" + Path.GetFileNameWithoutExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile)
+                                + "_copy" + Path.GetExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile));
+                            //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
+                        }
+
+                    }
+                }
+                else
+                {
+                    CopyDirectory(tonnel);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("You try to copy file in similar direcory");
+            }
+        }
+
+        private static void CopyDirectory(object FromTo)
+        {
+            Tonnel tonnel = (Tonnel)FromTo;
+            if (tonnel.SourcePath != tonnel.DestinationPath)
+            {
+                string[] directories = Directory.GetDirectories(tonnel.SourcePath + "\\" + tonnel.SelectedFile);
+                string[] files = Directory.GetFiles(tonnel.SourcePath + "\\" + tonnel.SelectedFile);
+
+                if (files.Length != 0)
+                {
+                    string FileName = string.Empty;
+                    string FileFormat = string.Empty;
+
+                    Directory.CreateDirectory(tonnel.DestinationPath + "\\" + tonnel.SelectedFile);
+
+                    foreach (string file in files)
+                    {
+                        if (!File.Exists(tonnel.DestinationPath + tonnel.SelectedFile + "\\" + FileName + "_copy" + FileFormat))
+                        {
+
+                            try
+                            {
+                                File.Copy(tonnel.SourcePath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileName(file),
+                                    tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileNameWithoutExtension(file) + "_copy" + Path.GetExtension(file));
+
+                                File.Move(tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileNameWithoutExtension(file) + "_copy" + Path.GetExtension(file),
+                                    tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileName(file));
+                            }
+                            catch (UnauthorizedAccessException)
+                            {
+                                MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return;
+                            }
+
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+
         private void CopyDirectory(string SourcePath, string DestinationPath, string DirName)
         {
             if (SourcePath != DestinationPath)
@@ -308,6 +400,13 @@ namespace navigator
             else;
             return size;
         }
+
+        //public static string[] GetAttributes(string path)
+        //{
+        //    string[] properties;
+        //    FileAttributes attributes = File.GetAttributes(path);
+
+        //}
 
     }
 }

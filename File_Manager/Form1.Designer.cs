@@ -59,6 +59,7 @@
             this.RenameButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.DeleteButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -204,7 +205,8 @@
             this.toolStripSeparator3,
             this.RenameButton,
             this.toolStripSeparator4,
-            this.DeleteButton});
+            this.DeleteButton,
+            this.toolStripButton1});
             resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Name = "toolStrip1";
             // 
@@ -275,11 +277,17 @@
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
+            // toolStripButton1
+            // 
+            resources.ApplyResources(this.toolStripButton1, "toolStripButton1");
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.RightListView, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.LeftListView, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.RightListView, 1, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // contextMenuStrip1
@@ -304,9 +312,9 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.toolStrip3);
             this.Controls.Add(this.toolStrip1);
             this.DoubleBuffered = true;
@@ -356,6 +364,7 @@
         private System.Windows.Forms.ColumnHeader columnEx;
         private System.Windows.Forms.ColumnHeader columnSize;
         private System.Windows.Forms.ColumnHeader columnSize1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

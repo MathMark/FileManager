@@ -10,44 +10,23 @@ using System.IO;
 
 namespace File_Manager
 {
-    public partial class Form2 : Form
+    public partial class FormAttributes : Form
     {
-        public Form2()
+        
+        public FormAttributes()
         {
             InitializeComponent();
-
-            //            StreamReader R;
-            //            if (Form1.wayToFile != string.Empty)
-            //            {
-            //                R = new StreamReader(Form1.wayToFile);
-            //                richTextBox1.Text = R.ReadToEnd();
-            //                R.Close();
-            //            }
-
-            //        }
-            //        StreamWriter W;
-            //        private void button1_Click(object sender, EventArgs e)
-            //        {
-            //            W = new StreamWriter(Form1.wayToFile);
-            //            W.WriteLine(richTextBox1.Text);
-            //            W.Close();
-            //            this.Close();
-            //        }
-
-            //        private void button2_Click(object sender, EventArgs e)
-            //        {
-            //            DialogResult d = MessageBox.Show("Do you want to save this file?", "Close", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            //            if (d == DialogResult.Yes)
-            //            {
-            //                W = new StreamWriter(Form1.wayToFile);
-            //                W.WriteLine(richTextBox1.Text);
-            //                W.Close();
-            //                this.Close();
-            //            }
-            //            else
-            //            {
-            //                this.Close();
-            //            }
        }
+        public FormAttributes(Image image,string[]attributes)
+        {
+            InitializeComponent();
+            Label[] AttributeLabels = { PathLabel, ExLabel,SizeLabel,EncLabel };
+            pictureBox1.Image = image;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
