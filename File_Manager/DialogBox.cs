@@ -16,6 +16,36 @@ namespace File_Manager
         {
             InitializeComponent();
         }
+        public DialogBox(Bitmap icon, string path)
+        {
+            InitializeComponent();
+            Icon.Image = icon;
+            this.path = path;
+        }
+        string path;
+        public string ObjectName
+        {
+            get { return text.Text; }
+            set { text.Text = value; }
+        }
+        public static event Action FormClose;
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Directory.CreateDirectory(path+"\\"+ObjectName);
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            FormClose();
+            this.Close();
+        }
+    }
+}
+ 
 
 //        public static string name;
 //        public static string format;
@@ -86,5 +116,4 @@ namespace File_Manager
 //                }
 //            q:this.Close();
 //        }
-   }
-}
+   

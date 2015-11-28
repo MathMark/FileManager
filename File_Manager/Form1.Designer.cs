@@ -49,6 +49,12 @@
             this.columnSize1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.buttonView = new System.Windows.Forms.ToolStripDropDownButton();
+            this.largeIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smallIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.titleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,12 +75,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.buttonView = new System.Windows.Forms.ToolStripDropDownButton();
-            this.largeIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.smallIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.titleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -234,6 +234,48 @@
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             // 
+            // buttonView
+            // 
+            this.buttonView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.buttonView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.largeIconToolStripMenuItem,
+            this.detailsToolStripMenuItem,
+            this.smallIconToolStripMenuItem,
+            this.listToolStripMenuItem,
+            this.titleToolStripMenuItem});
+            resources.ApplyResources(this.buttonView, "buttonView");
+            this.buttonView.Name = "buttonView";
+            // 
+            // largeIconToolStripMenuItem
+            // 
+            this.largeIconToolStripMenuItem.Name = "largeIconToolStripMenuItem";
+            resources.ApplyResources(this.largeIconToolStripMenuItem, "largeIconToolStripMenuItem");
+            this.largeIconToolStripMenuItem.Click += new System.EventHandler(this.largeIconToolStripMenuItem_Click);
+            // 
+            // detailsToolStripMenuItem
+            // 
+            this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
+            resources.ApplyResources(this.detailsToolStripMenuItem, "detailsToolStripMenuItem");
+            this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
+            // 
+            // smallIconToolStripMenuItem
+            // 
+            this.smallIconToolStripMenuItem.Name = "smallIconToolStripMenuItem";
+            resources.ApplyResources(this.smallIconToolStripMenuItem, "smallIconToolStripMenuItem");
+            this.smallIconToolStripMenuItem.Click += new System.EventHandler(this.smallIconToolStripMenuItem_Click);
+            // 
+            // listToolStripMenuItem
+            // 
+            this.listToolStripMenuItem.Name = "listToolStripMenuItem";
+            resources.ApplyResources(this.listToolStripMenuItem, "listToolStripMenuItem");
+            this.listToolStripMenuItem.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
+            // 
+            // titleToolStripMenuItem
+            // 
+            this.titleToolStripMenuItem.Name = "titleToolStripMenuItem";
+            resources.ApplyResources(this.titleToolStripMenuItem, "titleToolStripMenuItem");
+            this.titleToolStripMenuItem.Click += new System.EventHandler(this.titleToolStripMenuItem_Click);
+            // 
             // CreateButton
             // 
             this.CreateButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -247,6 +289,7 @@
             // 
             resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -351,48 +394,6 @@
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             resources.ApplyResources(this.toolStripProgressBar1, "toolStripProgressBar1");
-            // 
-            // buttonView
-            // 
-            this.buttonView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.buttonView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.largeIconToolStripMenuItem,
-            this.detailsToolStripMenuItem,
-            this.smallIconToolStripMenuItem,
-            this.listToolStripMenuItem,
-            this.titleToolStripMenuItem});
-            resources.ApplyResources(this.buttonView, "buttonView");
-            this.buttonView.Name = "buttonView";
-            // 
-            // largeIconToolStripMenuItem
-            // 
-            this.largeIconToolStripMenuItem.Name = "largeIconToolStripMenuItem";
-            resources.ApplyResources(this.largeIconToolStripMenuItem, "largeIconToolStripMenuItem");
-            this.largeIconToolStripMenuItem.Click += new System.EventHandler(this.largeIconToolStripMenuItem_Click);
-            // 
-            // detailsToolStripMenuItem
-            // 
-            this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
-            resources.ApplyResources(this.detailsToolStripMenuItem, "detailsToolStripMenuItem");
-            this.detailsToolStripMenuItem.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
-            // 
-            // smallIconToolStripMenuItem
-            // 
-            this.smallIconToolStripMenuItem.Name = "smallIconToolStripMenuItem";
-            resources.ApplyResources(this.smallIconToolStripMenuItem, "smallIconToolStripMenuItem");
-            this.smallIconToolStripMenuItem.Click += new System.EventHandler(this.smallIconToolStripMenuItem_Click);
-            // 
-            // listToolStripMenuItem
-            // 
-            this.listToolStripMenuItem.Name = "listToolStripMenuItem";
-            resources.ApplyResources(this.listToolStripMenuItem, "listToolStripMenuItem");
-            this.listToolStripMenuItem.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
-            // 
-            // titleToolStripMenuItem
-            // 
-            this.titleToolStripMenuItem.Name = "titleToolStripMenuItem";
-            resources.ApplyResources(this.titleToolStripMenuItem, "titleToolStripMenuItem");
-            this.titleToolStripMenuItem.Click += new System.EventHandler(this.titleToolStripMenuItem_Click);
             // 
             // Form1
             // 

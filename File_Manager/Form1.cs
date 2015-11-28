@@ -5,6 +5,7 @@ using System.Diagnostics;
 using navigator;
 using System.Collections.Generic;
 using System.Threading;
+using System.Drawing;
 
 namespace File_Manager
 {
@@ -33,7 +34,8 @@ namespace File_Manager
             LeftDevicesComboBox.SelectedItem = LeftDevicesComboBox.Items[0];
             RightDevicesComboBox.SelectedItem = RightDevicesComboBox.Items[0];
 
-
+            //dialogBox = new DialogBox();
+            DialogBox.FormClose += DialogBox_Close;
         }
         #region realization of IMainForm interface
         public void ShowContent(ListView listView,List<string>Content)
@@ -360,6 +362,33 @@ namespace File_Manager
         {
             LeftListView.View = View.Tile;
             RightListView.View = View.Tile;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DialogBox dialogBox;
+            if (LeftListView.SelectedItems.Count != 0)
+            {
+                dialogBox = new DialogBox((Bitmap)imageList1.Images[1], leftNavigator.CurrentPath);
+                dialogBox.Show();
+            }
+            else if(RightListView.SelectedItems.Count != 0)
+            {
+                dialogBox = new DialogBox((Bitmap)imageList1.Images[1], rightNavigator.CurrentPath);
+                dialogBox.Show();
+            }
+            else
+            {
+                ;
+            }
+
+            
+        }
+
+        private void DialogBox_Close()
+        {
+            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
         }
 
 
