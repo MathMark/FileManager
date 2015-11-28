@@ -33,14 +33,14 @@ namespace File_Manager
             LeftDevicesComboBox.SelectedItem = LeftDevicesComboBox.Items[0];
             RightDevicesComboBox.SelectedItem = RightDevicesComboBox.Items[0];
 
+
         }
         #region realization of IMainForm interface
         public void ShowContent(ListView listView,List<string>Content)
         {
             listView.Items.Clear();
             ListViewItem item;
-            DirectoryInfo directoryInfo;
-            FileInfo fileInfo;
+
             const long KByte = 1024;
             const long MByte = 1048576;
             
@@ -48,31 +48,28 @@ namespace File_Manager
             {
                 if(Directory.Exists(@object))
                 {
-                    directoryInfo = new DirectoryInfo(@object);
-
                     item = new ListViewItem(Path.GetFileNameWithoutExtension(@object),AddIcon("Directory"));
                     item.SubItems.Add("<dir>");
                     item.SubItems.Add("");
+                    item.SubItems.Add(new DirectoryInfo(@object).CreationTime.ToString());
 
                     listView.Items.Add(item);
                 }
                 else if(File.Exists(@object))
                 {
-                    fileInfo = new FileInfo(@object);
-
                     item = new ListViewItem(Path.GetFileNameWithoutExtension(@object),AddIcon(Path.GetExtension(@object)));
                     item.SubItems.Add(Path.GetExtension(@object));
 
-                    long Size = fileInfo.Length;
+                    long Size = new FileInfo(@object).Length;
                     if (Size >= MByte)
                     {
-                        item.SubItems.Add((fileInfo.Length / MByte).ToString() + " Mb");
+                        item.SubItems.Add((new FileInfo(@object).Length / MByte).ToString() + " Mb");
                     }
                     else
                     {
-                        item.SubItems.Add((fileInfo.Length / KByte).ToString() + " Kb");
+                        item.SubItems.Add((new FileInfo(@object).Length / KByte).ToString() + " Kb");
                     }
-                    
+                    item.SubItems.Add(new FileInfo(@object).CreationTime.ToString());
 
 
                     listView.Items.Add(item);
@@ -333,6 +330,36 @@ namespace File_Manager
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
            
+        }
+
+        private void largeIconToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LeftListView.View = View.LargeIcon;
+            RightListView.View = View.LargeIcon;
+        }
+
+        private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LeftListView.View = View.Details;
+            RightListView.View = View.Details;
+        }
+
+        private void smallIconToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LeftListView.View = View.SmallIcon;
+            RightListView.View = View.SmallIcon;
+        }
+
+        private void listToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LeftListView.View = View.List;
+            RightListView.View = View.List;
+        }
+
+        private void titleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LeftListView.View = View.Tile;
+            RightListView.View = View.Tile;
         }
 
 
