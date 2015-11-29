@@ -9,11 +9,9 @@ namespace File_Manager
     {
         public string SourcePath { get; private set; }
         public string DestinationPath { get; private set; }
-        public string SelectedFile { get; private set; }
 
-        public Tonnel(string SelectedFile,string SourcePath,string DestinationPath)
+        public Tonnel(string SourcePath,string DestinationPath)
         {
-            this.SelectedFile = SelectedFile;
             this.SourcePath = SourcePath;
             this.DestinationPath = DestinationPath;
         }

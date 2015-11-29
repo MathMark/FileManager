@@ -73,8 +73,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.progressLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -191,6 +191,7 @@
             this.columnSize1,
             this.columnHeader2});
             resources.ApplyResources(this.RightListView, "RightListView");
+            this.RightListView.FullRowSelect = true;
             this.RightListView.GridLines = true;
             this.RightListView.LargeImageList = this.imageList1;
             this.RightListView.Name = "RightListView";
@@ -381,21 +382,21 @@
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripProgressBar1});
+            this.progressLabel,
+            this.ProgressStatus});
             resources.ApplyResources(this.statusStrip1, "statusStrip1");
             this.statusStrip1.Name = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // progressLabel
             // 
-            this.toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
+            this.progressLabel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.progressLabel.Name = "progressLabel";
+            resources.ApplyResources(this.progressLabel, "progressLabel");
             // 
-            // toolStripProgressBar1
+            // ProgressStatus
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            resources.ApplyResources(this.toolStripProgressBar1, "toolStripProgressBar1");
+            this.ProgressStatus.Name = "ProgressStatus";
+            resources.ApplyResources(this.ProgressStatus, "ProgressStatus");
             // 
             // Form1
             // 
@@ -461,8 +462,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel progressLabel;
+        private System.Windows.Forms.ToolStripProgressBar ProgressStatus;
         private System.Windows.Forms.ToolStripDropDownButton buttonView;
         private System.Windows.Forms.ToolStripMenuItem largeIconToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;

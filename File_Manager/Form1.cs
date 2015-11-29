@@ -34,8 +34,14 @@ namespace File_Manager
             LeftDevicesComboBox.SelectedItem = LeftDevicesComboBox.Items[0];
             RightDevicesComboBox.SelectedItem = RightDevicesComboBox.Items[0];
 
-            //dialogBox = new DialogBox();
+            statusStrip1.Hide();
             DialogBox.FormClose += DialogBox_Close;
+
+            Navigator.ProgressChanged += Navigator_ProgressChanged;
+
+            Navigator.ProcessCompleted += Navigator_ProcessCompleted;
+
+
         }
         #region realization of IMainForm interface
         public void ShowContent(ListView listView,List<string>Content)
@@ -155,7 +161,7 @@ namespace File_Manager
                 else
                 {
                     //Process.Start(leftNavigator.ContentOfCurrentDirectory[item.Index]);
-                    MessageBox.Show(item.Text);
+                    //MessageBox.Show(item.Text);
                     //FileAttributes attributes = File.GetAttributes(leftNavigator.ContentOfCurrentDirectory[item.Index]);
                     //if ((attributes == FileAttributes.))
                     //{
@@ -165,6 +171,8 @@ namespace File_Manager
                     //{
                     //    MessageBox.Show("not read-only file");
                     //}
+                    //Navigator.Copy(leftNavigator.ContentOfCurrentDirectory[item.Index], rightNavigator.CurrentPath);
+
                 }
             }
             else
@@ -213,31 +221,57 @@ namespace File_Manager
             Tonnel tonnel;
             try
             {
-                if (LeftListView.SelectedItems.Count != 0)
+                if (leftNavigator.CurrentPath != rightNavigator.CurrentPath)
                 {
-                    foreach (ListViewItem item in LeftListView.SelectedItems)
+                    if (LeftListView.SelectedItems.Count != 0)
                     {
-                        tonnel = new Tonnel(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), leftNavigator.CurrentPath,
-                            rightNavigator.CurrentPath);
-                        threadCopy = new Thread(Navigator.Copy);
-                        threadCopy.IsBackground = true;
-                        threadCopy.Start(tonnel);
+                        statusStrip1.Show();
+                        progressLabel.Text = "Copying...";
+
+                        foreach (ListViewItem item in LeftListView.SelectedItems)
+                        {
+                            if (File.Exists(leftNavigator.ContentOfCurrentDirectory[item.Index]))
+                            {
+                                tonnel = new Tonnel(leftNavigator.ContentOfCurrentDirectory[item.Index],rightNavigator.CurrentPath);
+                                threadCopy = new Thread(Navigator.CopyFile);
+                                threadCopy.IsBackground = true;
+
+                                threadCopy.Start(tonnel);
+                            }
+                            else
+                            {
+                                ;//there will be CopyDirectory method
+                            }
+                        }
                     }
-                }
-                else if (RightListView.SelectedItems.Count != 0)
-                {
-                    foreach (ListViewItem item in RightListView.SelectedItems)
+                    else if (RightListView.SelectedItems.Count != 0)
                     {
-                        tonnel = new Tonnel(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), rightNavigator.CurrentPath,
-                            leftNavigator.CurrentPath);
-                        threadCopy = new Thread(Navigator.Copy);
-                        threadCopy.IsBackground = true;
-                        threadCopy.Start(tonnel);
+                        statusStrip1.Show();
+                        progressLabel.Text = "Copying...";
+                        foreach (ListViewItem item in RightListView.SelectedItems)
+                        {
+                            if (File.Exists(rightNavigator.ContentOfCurrentDirectory[item.Index]))
+                            {
+                                tonnel = new Tonnel(rightNavigator.ContentOfCurrentDirectory[item.Index],leftNavigator.CurrentPath);
+                                threadCopy = new Thread(Navigator.CopyFile);
+                                threadCopy.IsBackground = true;
+
+                                threadCopy.Start(tonnel);
+                            }
+                            else
+                            {
+                                ;//there will be CopyDirectory method
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("You haven't chosen any files","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("You haven't chosen any file");
+                    MessageBox.Show("You trying to copy this in similar path", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (UnauthorizedAccessException)
@@ -273,7 +307,7 @@ namespace File_Manager
                 }
                 else
                 {
-                    MessageBox.Show("You haven't chosen any file");
+                    MessageBox.Show("You haven't chosen any files");
                 }
             }
             catch (UnauthorizedAccessException)
@@ -300,11 +334,11 @@ namespace File_Manager
                 {
                     if (LeftListView.SelectedItems.Count > 1)
                     {
-                        dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        dialog = MessageBox.Show("Are you sure that you want to delete these files?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     }
                     else
                     {
-                         dialog= MessageBox.Show("Are you sure that you want to delete these files?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                         dialog= MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     }
                     if (dialog == DialogResult.Yes)
                         foreach (ListViewItem item in LeftListView.SelectedItems)
@@ -316,11 +350,11 @@ namespace File_Manager
                 {
                     if (RightListView.SelectedItems.Count > 1)
                     {
-                        dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        dialog = MessageBox.Show("Are you sure that you want to delete these files?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     }
                     else
                     {
-                        dialog = MessageBox.Show("Are you sure that you want to delete these files?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     }
                     if (dialog == DialogResult.Yes)
                     {
@@ -332,7 +366,7 @@ namespace File_Manager
                 }
                 else
                 {
-                    MessageBox.Show("You haven't chosen any file");
+                    MessageBox.Show("You haven't chosen any files");
                 }
             }
             catch (UnauthorizedAccessException)
@@ -423,17 +457,35 @@ namespace File_Manager
 
         }
 
+        private void Navigator_ProgressChanged(int progress)
+        {
+            Action action = () =>
+              {
+                  ProgressStatus.Value = progress;
+              };
+            Invoke(action);
+        }
 
+        private void Navigator_ProcessCompleted()
+        {
+            Action action = () =>
+            {
+                ProgressStatus.Value += 100- ProgressStatus.Value;
+                progressLabel.Text = "Copying successfuly completed";
 
+                ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+                ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+                Thread.Sleep(1000);
 
+                statusStrip1.Hide();
+
+                ProgressStatus.Value = 0;
+            };
+            Invoke(action);
+        }
 
         #endregion
 
-        //  public static DriveInfo[] drives = DriveInfo.GetDrives();
-        // public static string LeftPath = drives[0].Name;
-        // public static string RightPath = drives[0].Name;
-
-        //public static byte createThing = 0;
 
         ////Button "Search"
         //private void toolStripButton1_Click(object sender, EventArgs e)
@@ -482,236 +534,6 @@ namespace File_Manager
         //{
         //DialogBox CreateFile = new DialogBox();
         //CreateFile.Show();
-        //}
-
-
-
-        /// Button "Rename"
-        //private void toolStripButton4_Click(object sender, EventArgs e)
-        //{
-        //    ListViewItem item;
-        //    if ((LeftList.SelectedItems.Count != 0))
-        //    {
-        //        item = LeftList.SelectedItems[0];
-
-        //        DialogBox.format = Navigator.ReturnFormat(item.Text);
-        //        DialogBox.way=LeftPath;
-        //        DialogBox CreateFile = new DialogBox();
-        //        lastname = item.Text;
-        //        createThing = 6;
-        //        CreateFile.Show();
-
-
-        //        if (DialogBox.done == true)
-        //        {
-        //            try
-        //            {
-        //                Navigator.GetFiles(ref LeftPath, LeftList);
-        //                Navigator.GetFiles(ref RightPath, RightList);
-        //            }
-        //            catch (DirectoryNotFoundException)
-        //            {
-        //                string path = "C:\\";
-        //                Navigator.GetFiles(ref path, LeftList);
-        //                Navigator.GetFiles(ref path, RightList);
-        //            }
-        //            DialogBox.done = false;
-        //        }
-        //    }
-        //    else if (RightList.SelectedItems.Count != 0) 
-        //    {
-        //        item = RightList.SelectedItems[0];
-
-        //        DialogBox.format = Navigator.ReturnFormat(item.Text);
-        //        DialogBox.way = RightPath;
-        //        DialogBox CreateFile = new DialogBox();
-        //        lastname = item.Text;
-        //        createThing = 6;
-        //        CreateFile.Show();
-
-
-        //        if (DialogBox.done == true)
-        //        {
-        //            try
-        //            {
-        //                Navigator.GetFiles(ref LeftPath, LeftList);
-        //                Navigator.GetFiles(ref RightPath, RightList);
-        //            }
-        //            catch (DirectoryNotFoundException)
-        //            {
-        //                string path = "C:\\";
-        //                Navigator.GetFiles(ref path, LeftList);
-        //                Navigator.GetFiles(ref path, RightList);
-        //            }
-        //            DialogBox.done = false;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("You haven't choosen a file", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
-        //    }
-        //}
-
-
-
-        //private void toolStripButton3_Click(object sender, EventArgs e)
-        //{
-        //    ListViewItem item;
-        //    if (LeftList.SelectedItems.Count != 0)
-        //    {
-        //        item = LeftList.SelectedItems[0];
-        //        try
-        //        {
-        //            Navigator.Move(item, LeftPath, RightPath);
-        //        }
-        //        catch (UnauthorizedAccessException)
-        //        {
-        //            MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //            return;
-        //        }
-
-        //        Navigator.GetFiles(ref LeftPath, LeftList);
-        //        Navigator.GetFiles(ref RightPath, RightList);
-        //    }
-        //    else if (RightList.SelectedItems.Count != 0)
-        //    {
-        //        item = RightList.SelectedItems[0];
-        //        try
-        //        {
-        //            Navigator.Move(item, RightPath, LeftPath);
-        //        }
-        //        catch (UnauthorizedAccessException)
-        //        {
-        //            MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //            return;
-        //        }
-
-        //        Navigator.GetFiles(ref LeftPath, LeftList);
-        //        Navigator.GetFiles(ref RightPath, RightList);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("You haven't chosen any file");
-        //    }
-        //}
-        // public static string wayToFile = "";
-
-
-
-        //Button "Open File"
-        //private void toolStripButton7_Click(object sender, EventArgs e)
-        //{
-
-        //    if ((LeftList.SelectedItems.Count != 0)&&(Navigator.ReturnFormat(LeftList.SelectedItems[0].Text)!=string.Empty))
-        //    {
-        //        if (Navigator.ReturnFormat(LeftList.SelectedItems[0].Text) == ".txt")
-        //        {
-        //            wayToFile = LeftPath + LeftList.SelectedItems[0].Text;
-        //            Form2 EditWindow = new Form2();
-        //            EditWindow.Show();
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("You can edit just text files");
-        //        }
-        //    }
-        //    else if ((RightList.SelectedItems.Count != 0) && (Navigator.ReturnFormat(RightList.SelectedItems[0].Text) != string.Empty))
-        //    {
-        //        if (Navigator.ReturnFormat(RightList.SelectedItems[0].Text) == ".txt")
-        //        {
-        //            wayToFile = RightPath + RightList.SelectedItems[0].Text;
-        //            Form2 EditWindow = new Form2();
-        //            EditWindow.Show();
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("You can edit just text files");
-        //        }
-        //    }
-        //}
-
-        //private void Form1_Activated(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        Navigator.GetFiles(ref LeftPath, LeftList);
-        //        Navigator.GetFiles(ref RightPath, RightList);
-        //    }
-        //    catch (DirectoryNotFoundException)
-        //    {
-        //        string path = "C:\\";
-        //        Navigator.GetFiles(ref path, LeftList);
-        //        Navigator.GetFiles(ref path, RightList);
-        //    }
-        //}
-
-        //private void toolStripButton9_Click(object sender, EventArgs e)
-        //{
-        //    LeftList.CheckBoxes = true;
-        //}
-
-        //private void label7_Paint(object sender, PaintEventArgs e)
-        //{
-        //}
-
-        //    private void button4_Click(object sender, EventArgs e)
-        //    {
-        //        Navigator.GetFiles("..", ref RightPath, RightDevices.SelectedItem.ToString(), RightList);
-        //        RightPath = RightPath.Replace("..\\", string.Empty);
-
-        //        startIndex = Navigator.LastSlash(RightPath);
-
-        //        if (startIndex != 0)
-        //        {
-        //            RightPath = RightPath.Remove(Navigator.LastSlash(RightPath));
-        //        }
-
-        //        RightWayTextBox.Text = RightPath;
-        //    }
-
-        //    private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        //    {
-        //        DialogBox CreateFile = new DialogBox();
-        //        DialogBox.way = LeftPath;
-        //        createThing = 2;
-        //        CreateFile.Show();
-        //    }
-
-        //    private void label8_Paint(object sender, PaintEventArgs e)
-        //    {
-        //    }
-
-        //    private void toolStripButton8_Click(object sender, EventArgs e)
-        //    {
-        //        Process.Start("D:\\Help.chm");
-        //    }
-
-        //    private void toolStripMenuItem3_Click_1(object sender, EventArgs e)
-        //    {
-        //        DialogBox CreateFile = new DialogBox();
-        //        DialogBox.way = LeftPath;
-        //        createThing = 3;
-        //        CreateFile.Show();
-        //    }
-
-        //    private void toolStripMenuItem4_Click_1(object sender, EventArgs e)
-        //    {
-        //        DialogBox CreateFile = new DialogBox();
-        //        DialogBox.way = LeftPath;
-        //        createThing = 4;
-        //        CreateFile.Show();
-        //    }
-
-        //    private void toolStripButton9_Click_1(object sender, EventArgs e)
-        //    {
-        //        Form3 f = new Form3();
-        //        f.Show();
-        //    }
-
-        //    private void Form1_Load(object sender, EventArgs e)
-        //    {
-
-        //    }
         //}
 
     }

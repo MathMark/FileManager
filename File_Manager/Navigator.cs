@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using File_Manager;
+using System.Threading;
 
 namespace navigator
 {
@@ -158,143 +159,50 @@ namespace navigator
             }
         }
 
-        public void Copy(string SelectedName, string DestinationPath)
-        {
-            if (CurrentPath != DestinationPath)
-            {
-                if (File.Exists(CurrentPath + "\\" + SelectedName))
-                {
-                    if (!File.Exists(DestinationPath + Path.GetFileName(CurrentPath+"\\"+SelectedName)))
-                    {
-                        try
-                        {
-                            File.Copy(CurrentPath + "\\" + SelectedName, DestinationPath + "\\" + Path.GetFileNameWithoutExtension(CurrentPath + "\\" + SelectedName)
-                                + "_copy" + Path.GetExtension(CurrentPath + "\\" + SelectedName));
-                            //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        DialogResult result = MessageBox.Show("A file with similar name has already exist. Do you wish to Replace?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
-                        if (result == DialogResult.Yes)
-                        {
-                            File.Delete(DestinationPath + "\\" + Path.GetFileName(CurrentPath + "\\" + SelectedName));
-                            File.Copy(CurrentPath + "\\" + SelectedName, DestinationPath + "\\" + Path.GetFileNameWithoutExtension(CurrentPath + "\\" + SelectedName)
-                                + "_copy" + Path.GetExtension(CurrentPath + "\\" + SelectedName));
-                            //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
-                        }
+        //private static void CopyDirectory(object FromTo)
+        //{
+        //    Tonnel tonnel = (Tonnel)FromTo;
+        //    if (tonnel.SourcePath != tonnel.DestinationPath)
+        //    {
+        //        string[] directories = Directory.GetDirectories(tonnel.SourcePath + "\\" + tonnel.SelectedFile);
+        //        string[] files = Directory.GetFiles(tonnel.SourcePath + "\\" + tonnel.SelectedFile);
 
-                    }
-                }
-                else
-                {
-                    CopyDirectory(CurrentPath, DestinationPath, SelectedName);
-                }
+        //        if (files.Length != 0)
+        //        {
+        //            string FileName = string.Empty;
+        //            string FileFormat = string.Empty;
 
-            }
-            else
-            {
-                MessageBox.Show("You try to copy file in similar direcory");
-            }
+        //            Directory.CreateDirectory(tonnel.DestinationPath + "\\" + tonnel.SelectedFile);
 
-        }
+        //            foreach (string file in files)
+        //            {
+        //                if (!File.Exists(tonnel.DestinationPath + tonnel.SelectedFile + "\\" + FileName + "_copy" + FileFormat))
+        //                {
 
-        public static void Copy(object FromTo)
-        {
-            Tonnel tonnel = (Tonnel)FromTo;
-            if (tonnel.SourcePath != tonnel.DestinationPath)
-            {
-                if (File.Exists(tonnel.SourcePath + "\\" + tonnel.SelectedFile))
-                {
-                    if (!File.Exists(tonnel.DestinationPath + Path.GetFileName(tonnel.SourcePath + "\\" + tonnel.SelectedFile)))
-                    {
-                        try
-                        {
-                            File.Copy(tonnel.SourcePath + "\\" + tonnel.SelectedFile, tonnel.DestinationPath + "\\" + Path.GetFileNameWithoutExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile)
-                                + "_copy" + Path.GetExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile));
-                            //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        DialogResult result = MessageBox.Show("A file with similar name has already exist. Do you wish to Replace?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+        //                    try
+        //                    {
+        //                        File.Copy(tonnel.SourcePath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileName(file),
+        //                            tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileNameWithoutExtension(file) + "_copy" + Path.GetExtension(file));
 
-                        if (result == DialogResult.Yes)
-                        {
-                            File.Delete(tonnel.DestinationPath + "\\" + Path.GetFileName(tonnel.SourcePath + "\\" + tonnel.SelectedFile));
-                            File.Copy(tonnel.SourcePath + "\\" + tonnel.SelectedFile, tonnel.DestinationPath + "\\" + Path.GetFileNameWithoutExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile)
-                                + "_copy" + Path.GetExtension(tonnel.SourcePath + "\\" + tonnel.SelectedFile));
-                            //File.Move(DestinationPath + FileName + "_copy" + FileFormat, DestinationPath + FileName + FileFormat);
-                        }
+        //                        File.Move(tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileNameWithoutExtension(file) + "_copy" + Path.GetExtension(file),
+        //                            tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileName(file));
+        //                    }
+        //                    catch (UnauthorizedAccessException)
+        //                    {
+        //                        MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //                        return;
+        //                    }
 
-                    }
-                }
-                else
-                {
-                    CopyDirectory(tonnel);
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("You try to copy file in similar direcory");
-            }
-        }
-
-        private static void CopyDirectory(object FromTo)
-        {
-            Tonnel tonnel = (Tonnel)FromTo;
-            if (tonnel.SourcePath != tonnel.DestinationPath)
-            {
-                string[] directories = Directory.GetDirectories(tonnel.SourcePath + "\\" + tonnel.SelectedFile);
-                string[] files = Directory.GetFiles(tonnel.SourcePath + "\\" + tonnel.SelectedFile);
-
-                if (files.Length != 0)
-                {
-                    string FileName = string.Empty;
-                    string FileFormat = string.Empty;
-
-                    Directory.CreateDirectory(tonnel.DestinationPath + "\\" + tonnel.SelectedFile);
-
-                    foreach (string file in files)
-                    {
-                        if (!File.Exists(tonnel.DestinationPath + tonnel.SelectedFile + "\\" + FileName + "_copy" + FileFormat))
-                        {
-
-                            try
-                            {
-                                File.Copy(tonnel.SourcePath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileName(file),
-                                    tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileNameWithoutExtension(file) + "_copy" + Path.GetExtension(file));
-
-                                File.Move(tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileNameWithoutExtension(file) + "_copy" + Path.GetExtension(file),
-                                    tonnel.DestinationPath + "\\" + tonnel.SelectedFile + "\\" + Path.GetFileName(file));
-                            }
-                            catch (UnauthorizedAccessException)
-                            {
-                                MessageBox.Show("Access denied", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                return;
-                            }
-
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                }
-            }
-        }
+        //                }
+        //                else
+        //                {
+        //                    continue;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private void CopyDirectory(string SourcePath, string DestinationPath, string DirName)
         {
@@ -401,12 +309,44 @@ namespace navigator
             return size;
         }
 
-        //public static string[] GetAttributes(string path)
-        //{
-        //    string[] properties;
-        //    FileAttributes attributes = File.GetAttributes(path);
+        public static void CopyFile(object FromTo)
+        {
+            Tonnel tonnel = (Tonnel)FromTo;
+            FileInfo file = new FileInfo(tonnel.SourcePath);
+            byte[] buffer = new byte[file.Length];
+            FileStream sourceStream = new FileStream(tonnel.SourcePath,FileMode.Open,FileAccess.Read);
+            int countBytes=sourceStream.Read(buffer, 0, buffer.Length);
+            FileStream destinationStream = new FileStream(tonnel.DestinationPath +"\\"+ Path.GetFileName(tonnel.SourcePath), FileMode.Create,FileAccess.Write);
 
-        //}
+            int progress = 0;
+            int Quotient = 0;
+            int Remainder = 0;
+            int stopPoint = 0;
 
+            if (countBytes < 1024)
+            {
+                destinationStream.Write(buffer, 0, countBytes);
+            }
+            else
+            {
+                Quotient = countBytes / 100;
+                Remainder = countBytes % 100;
+  
+                for (int i = 0; i <= 100*Quotient; i += Quotient)
+                {
+                    destinationStream.Write(buffer, stopPoint, Quotient);
+                    stopPoint = i;
+
+                    ProgressChanged(progress);
+                    progress++;
+                }
+
+                destinationStream.Write(buffer, stopPoint, Remainder);
+            }
+            ProcessCompleted();
+            
+        }
+        public static event Action<int> ProgressChanged;
+        public static event Action ProcessCompleted;
     }
 }
