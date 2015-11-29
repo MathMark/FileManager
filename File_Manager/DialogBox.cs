@@ -22,6 +22,7 @@ namespace File_Manager
             Icon.Image = icon;
             this.path = path;
         }
+
         string path;
         public string ObjectName
         {

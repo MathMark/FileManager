@@ -295,11 +295,13 @@
             // 
             resources.ApplyResources(this.toolStripMenuItem2, "toolStripMenuItem2");
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // sdToolStripMenuItem
             // 
             resources.ApplyResources(this.sdToolStripMenuItem, "sdToolStripMenuItem");
             this.sdToolStripMenuItem.Name = "sdToolStripMenuItem";
+            this.sdToolStripMenuItem.Click += new System.EventHandler(this.sdToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 

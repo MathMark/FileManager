@@ -209,39 +209,38 @@ namespace File_Manager
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
-            ListViewItem item;
-            Thread r;
+            Thread threadCopy;
             Tonnel tonnel;
             try
             {
                 if (LeftListView.SelectedItems.Count != 0)
                 {
-                    item = LeftListView.SelectedItems[0];
-                    //leftNavigator.Copy(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), rightNavigator.CurrentPath);
-                    tonnel = new Tonnel(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), leftNavigator.CurrentPath,
-                        rightNavigator.CurrentPath);
-                    r = new Thread(Navigator.Copy);
-                    r.IsBackground = true;
-                    r.Start(tonnel);
+                    foreach (ListViewItem item in LeftListView.SelectedItems)
+                    {
+                        tonnel = new Tonnel(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), leftNavigator.CurrentPath,
+                            rightNavigator.CurrentPath);
+                        threadCopy = new Thread(Navigator.Copy);
+                        threadCopy.IsBackground = true;
+                        threadCopy.Start(tonnel);
+                    }
                 }
                 else if (RightListView.SelectedItems.Count != 0)
                 {
-                    item = RightListView.SelectedItems[0];
-
-                    //rightNavigator.Copy(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), leftNavigator.CurrentPath);
-
-                    tonnel = new Tonnel(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), rightNavigator.CurrentPath,
-                        leftNavigator.CurrentPath);
-                    r = new Thread(Navigator.Copy);
-                    r.IsBackground = true;
-                    r.Start(tonnel);
+                    foreach (ListViewItem item in RightListView.SelectedItems)
+                    {
+                        tonnel = new Tonnel(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty), rightNavigator.CurrentPath,
+                            leftNavigator.CurrentPath);
+                        threadCopy = new Thread(Navigator.Copy);
+                        threadCopy.IsBackground = true;
+                        threadCopy.Start(tonnel);
+                    }
                 }
                 else
                 {
                     MessageBox.Show("You haven't chosen any file");
                 }
             }
-            catch(UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 MessageBox.Show("Access denied", "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -249,9 +248,11 @@ namespace File_Manager
             {
                 MessageBox.Show(exception.Message, "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        
-            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
-            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+            finally
+            {
+                ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+                ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+            }
         }
 
         private void MoveButton_Click(object sender, EventArgs e)
@@ -275,41 +276,58 @@ namespace File_Manager
                     MessageBox.Show("You haven't chosen any file");
                 }
             }
-            catch(UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 MessageBox.Show("Access denied", "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
-            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+            finally
+            {
+                ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+                ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+            }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            ListViewItem item;
+            DialogResult dialog;
             try
             {
                 if (LeftListView.SelectedItems.Count != 0)
                 {
-                    DialogResult dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                    if (dialog == DialogResult.Yes)
+                    if (LeftListView.SelectedItems.Count > 1)
                     {
-                        item = LeftListView.SelectedItems[0];
-                        leftNavigator.Delete(item.Text + item.SubItems[1].Text.Replace("<dir>",string.Empty));
+                        dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    }
+                    else
+                    {
+                         dialog= MessageBox.Show("Are you sure that you want to delete these files?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    }
+                    if (dialog == DialogResult.Yes)
+                        foreach (ListViewItem item in LeftListView.SelectedItems)
+                    {
+                            leftNavigator.Delete(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty)); 
                     }
                 }
                 else if (RightListView.SelectedItems.Count != 0)
                 {
-                    DialogResult dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    if (RightListView.SelectedItems.Count > 1)
+                    {
+                        dialog = MessageBox.Show("Are you sure that you want to delete this file?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    }
+                    else
+                    {
+                        dialog = MessageBox.Show("Are you sure that you want to delete these files?", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    }
                     if (dialog == DialogResult.Yes)
                     {
-                        item = RightListView.SelectedItems[0];
-
-                        rightNavigator.Delete(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty));
+                        foreach (ListViewItem item in RightListView.SelectedItems)
+                        {
+                            rightNavigator.Delete(item.Text + item.SubItems[1].Text.Replace("<dir>", string.Empty));
+                        }
                     }
                 }
                 else
@@ -325,8 +343,12 @@ namespace File_Manager
             {
                 MessageBox.Show(exception.Message, "Inforamtion", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
-            ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+            finally
+            {
+                ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
+                ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+            }
+            
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -389,6 +411,16 @@ namespace File_Manager
         {
             ShowContent(LeftListView, leftNavigator.GetContent(leftNavigator.CurrentPath));
             ShowContent(RightListView, rightNavigator.GetContent(rightNavigator.CurrentPath));
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void sdToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
 
